@@ -10,6 +10,8 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      FOUNDRY_RELEASE_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -75,9 +77,7 @@ jobs:
             module.zip
 
       - name: Publish to Foundry package registry
-        if: ${{ secrets.FOUNDRY_RELEASE_TOKEN != '' }}
-        env:
-          FOUNDRY_RELEASE_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
+        if: ${{ env.FOUNDRY_RELEASE_TOKEN != '' }}
         run: |
           set -euo pipefail
           BODY="$(jq -n \
