@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Verify tag matches module.json version
         run: |
@@ -34,9 +36,40 @@ jobs:
       - name: Build module archive
         run: zip -r module.zip . -x "*.git*" -x ".github/*"
 
+      - name: Build release notes
+        run: |
+          set -euo pipefail
+          PREV="$(git describe --tags --abbrev=0 "${GITHUB_REF_NAME}^" 2>/dev/null || true)"
+          {
+            echo "## What's changed"
+            echo ""
+            # Commit subjects since the previous tag, skipping commits that
+            # only touch CI/workflow files — players don't care about those.
+            if [ -n "$PREV" ]; then
+              RANGE="$PREV..${GITHUB_REF_NAME}"
+            else
+              RANGE="${GITHUB_REF_NAME}"
+            fi
+            git log --pretty='- %s' "$RANGE" -- . ':!.github'
+            echo ""
+            if [ -n "$PREV" ]; then
+              echo "**Full changelog:** [\`$PREV...${GITHUB_REF_NAME}\`](https://github.com/${GITHUB_REPOSITORY}/compare/$PREV...${GITHUB_REF_NAME})"
+              echo ""
+            fi
+            echo "## Install"
+            echo ""
+            echo "Paste this manifest URL into Foundry's **Install Module** dialog:"
+            echo ""
+            echo '```'
+            echo "https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/module.json"
+            echo '```'
+          } > release-notes.md
+          cat release-notes.md
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
+          body_path: release-notes.md
           files: |
             module.json
             module.zip
