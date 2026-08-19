@@ -22,6 +22,15 @@ jobs:
             exit 1
           fi
 
+      - name: Pin download URL to this release
+        run: |
+          # The manifest URL stays on releases/latest so Foundry's update
+          # check finds new versions; the download URL is pinned so the
+          # package registry can install this exact version.
+          jq --arg url "https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/module.zip" \
+             '.download = $url' module.json > module.json.tmp
+          mv module.json.tmp module.json
+
       - name: Build module archive
         run: zip -r module.zip . -x "*.git*" -x ".github/*"
 
