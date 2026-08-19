@@ -1,5 +1,11 @@
 # Light Presets
 
+![Foundry Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgithub.com%2Fmikiross87%2Flight-presets%2Freleases%2Flatest%2Fdownload%2Fmodule.json&query=%24.compatibility.verified&prefix=v&label=foundry&color=informational)
+![Latest Release](https://img.shields.io/github/v/release/mikiross87/light-presets?label=version)
+![Downloads](https://img.shields.io/github/downloads/mikiross87/light-presets/total?label=downloads)
+[![CI](https://github.com/mikiross87/light-presets/actions/workflows/ci.yml/badge.svg)](https://github.com/mikiross87/light-presets/actions/workflows/ci.yml)
+![License](https://img.shields.io/github/license/mikiross87/light-presets?label=license)
+
 One-click light presets for the Foundry VTT lighting toolbar — the same workflow the core wall tools give you (solid, terrain, door, …), but for ambient lights.
 
 Click a preset, then drag on the canvas: every light you draw uses that preset until you pick another. The active preset shows an indicator pip, exactly like the wall type buttons, and your choice persists across reloads.
