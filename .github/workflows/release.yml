@@ -73,3 +73,27 @@ jobs:
           files: |
             module.json
             module.zip
+
+      - name: Publish to Foundry package registry
+        if: ${{ secrets.FOUNDRY_RELEASE_TOKEN != '' }}
+        env:
+          FOUNDRY_RELEASE_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          BODY="$(jq -n \
+            --arg id "$(jq -r .id module.json)" \
+            --arg version "$(jq -r .version module.json)" \
+            --arg manifest "https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/module.json" \
+            --arg notes "https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}" \
+            --argjson compat "$(jq .compatibility module.json)" \
+            '{id: $id, release: {version: $version, manifest: $manifest, notes: $notes, compatibility: $compat}}')"
+          RESPONSE="$(curl -s -w '\n%{http_code}' -X POST "https://foundryvtt.com/_api/packages/release_version/" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: ${FOUNDRY_RELEASE_TOKEN}" \
+            -d "$BODY")"
+          STATUS="$(printf '%s' "$RESPONSE" | tail -1)"
+          printf '%s\n' "$RESPONSE" | sed '$d'
+          if [ "$STATUS" != "200" ]; then
+            echo "Foundry registry publish failed with HTTP $STATUS" >&2
+            exit 1
+          fi
