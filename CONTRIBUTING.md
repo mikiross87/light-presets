@@ -42,3 +42,19 @@ Notes:
 Bump `version` in `module.json`, commit, tag `vX.Y.Z`, push the tag. CI
 builds the zip, publishes the GitHub release, and registers the version with
 the Foundry package registry.
+
+### Prereleases
+
+To let a change bake before it's official, use a semver prerelease version —
+e.g. `1.1.0-beta.1` in `module.json`, tagged `v1.1.0-beta.1`. CI detects the
+hyphen and treats it differently:
+
+- Marked as a GitHub **prerelease** (won't show as the repo's "Latest release").
+- **Not** registered with the Foundry package registry.
+- **Not** picked up by the stable `releases/latest/download/module.json`
+  manifest, so existing installs never auto-update to it.
+
+To test one, install or update using that tag's own pinned manifest URL:
+`https://github.com/mikiross87/light-presets/releases/download/vX.Y.Z-beta.N/module.json`.
+Once it's confirmed good, cut the real release: bump to the plain version
+(`1.1.0`), commit, tag `v1.1.0`, push — that one *does* register normally.

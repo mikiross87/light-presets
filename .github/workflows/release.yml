@@ -26,6 +26,19 @@ jobs:
             exit 1
           fi
 
+      - name: Determine prerelease status
+        id: prerelease
+        run: |
+          # Standard semver prerelease convention: a hyphen after the patch
+          # number, e.g. v1.1.0-beta.1. Such tags are marked as GitHub
+          # prereleases and are not registered with the Foundry registry —
+          # they're for testing via their own pinned manifest URL only.
+          if [[ "${GITHUB_REF_NAME#v}" == *-* ]]; then
+            echo "is_prerelease=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Pin download URL to this release
         run: |
           # The manifest URL stays on releases/latest so Foundry's update
@@ -60,11 +73,19 @@ jobs:
             fi
             echo "## Install"
             echo ""
-            echo "Paste this manifest URL into Foundry's **Install Module** dialog:"
-            echo ""
-            echo '```'
-            echo "https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/module.json"
-            echo '```'
+            if [ "${{ steps.prerelease.outputs.is_prerelease }}" = "true" ]; then
+              echo "⚠️ This is a prerelease — not registered with the Foundry package registry and not picked up by the stable \`latest\` manifest. Install or update it explicitly with this version-pinned manifest URL:"
+              echo ""
+              echo '```'
+              echo "https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/module.json"
+              echo '```'
+            else
+              echo "Paste this manifest URL into Foundry's **Install Module** dialog:"
+              echo ""
+              echo '```'
+              echo "https://github.com/${GITHUB_REPOSITORY}/releases/latest/download/module.json"
+              echo '```'
+            fi
           } > release-notes.md
           cat release-notes.md
 
@@ -72,12 +93,13 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           body_path: release-notes.md
+          prerelease: ${{ steps.prerelease.outputs.is_prerelease }}
           files: |
             module.json
             module.zip
 
       - name: Publish to Foundry package registry
-        if: ${{ env.FOUNDRY_RELEASE_TOKEN != '' }}
+        if: ${{ env.FOUNDRY_RELEASE_TOKEN != '' && steps.prerelease.outputs.is_prerelease != 'true' }}
         run: |
           set -euo pipefail
           BODY="$(jq -n \
