@@ -1,0 +1,18 @@
+{
+  "id": "light-presets",
+  "title": "Light Presets",
+  "description": "One-click light presets (candle, torch, lantern, bullseye lantern, campfire, magical glow) in the lighting toolbar. Clicking a preset saves it as the default for newly drawn ambient lights via the core V14 light palette.",
+  "version": "1.2.0",
+  "authors": [{ "name": "Miguel Ross" }],
+  "url": "https://github.com/mikiross87/light-presets",
+  "bugs": "https://github.com/mikiross87/light-presets/issues",
+  "manifest": "https://github.com/mikiross87/light-presets/releases/latest/download/module.json",
+  "download": "https://github.com/mikiross87/light-presets/releases/latest/download/module.zip",
+  "readme": "https://github.com/mikiross87/light-presets/blob/main/README.md",
+  "license": "https://github.com/mikiross87/light-presets/blob/main/LICENSE",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14"
+  },
+  "esmodules": ["scripts/main.js"]
+}
