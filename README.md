@@ -1,6 +1,6 @@
 # Light Presets
 
-![Foundry Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmikiross87%2Flight-presets%2Fmain%2Fmodule.json&query=%24.compatibility.verified&prefix=v&label=foundry&color=informational)
+![Foundry Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fmikiross87%2Flight-presets%2FHEAD%2Fmodule.json&query=%24.compatibility.verified&prefix=v&label=foundry&color=informational)
 ![Latest Release](https://img.shields.io/github/v/release/mikiross87/light-presets?label=version)
 ![Downloads](https://img.shields.io/github/downloads/mikiross87/light-presets/module.zip?label=downloads)
 [![CI](https://github.com/mikiross87/light-presets/actions/workflows/ci.yml/badge.svg)](https://github.com/mikiross87/light-presets/actions/workflows/ci.yml)
