@@ -1,0 +1,86 @@
+name: Triage
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      ISSUE: ${{ github.event.issue.number }}
+      # Never interpolate ${{ github.event.issue.* }} straight into a run block:
+      # an issue body is attacker-controlled text and the shell would evaluate
+      # it. Passing it through the environment keeps it inert data.
+      BODY: ${{ github.event.issue.body }}
+      # Labels as they stood when the event fired, which is what lets the
+      # "have we already commented?" check work on the edited re-run.
+      LABELS: ${{ join(github.event.issue.labels.*.name, ',') }}
+    steps:
+      - name: Label and comment from the form answers
+        run: |
+          set -euo pipefail
+
+          # Issue forms render as "### <label>" followed by the value, so the
+          # first non-empty line after a heading is the answer for the single
+          # line fields (input, dropdown). Feature requests carry neither of
+          # the fields read below and simply fall through untouched.
+          field() {
+            awk -v h="### $1" '
+              $0 == h { grab = 1; next }
+              /^### / { grab = 0 }
+              grab { print }
+            ' <<< "$BODY" | sed '/^[[:space:]]*$/d' | head -1
+          }
+
+          has_label() {
+            printf '%s' ",$LABELS," | grep -q ",$1,"
+          }
+
+          # 1. Reporter has not ruled out a conflict with another module.
+          ISOLATED="$(field "Does it still happen with all other modules disabled?")"
+          if printf '%s' "$ISOLATED" | grep -q '^Haven'; then
+            echo "not isolated yet -> needs-repro"
+            gh issue edit "$ISSUE" -R "$REPO" --add-label needs-repro
+          fi
+
+          # 2. Reported against a version older than the current release.
+          RAW="$(field "Light Presets version" | tr -d '[:space:]' | sed 's/^[vV]//')"
+          if ! printf '%s' "$RAW" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+'; then
+            echo "no usable version in the report ('$RAW') - nothing to compare"
+            exit 0
+          fi
+          # Compare on the release triple only. sort -V orders prerelease
+          # suffixes differently between BSD and GNU sort, and that precision
+          # is not worth an implementation dependency here.
+          REPORTED="$(printf '%s' "$RAW" | sed 's/-.*//')"
+          LATEST="$(gh api "repos/$REPO/releases/latest" -q .tag_name | sed 's/^v//')"
+          echo "reported=$RAW (compared as $REPORTED) latest=$LATEST"
+
+          # sort -V puts the lower version first; equal versions are not older.
+          OLDEST="$(printf '%s\n%s\n' "$REPORTED" "$LATEST" | sort -V | head -1)"
+          if [ "$REPORTED" = "$LATEST" ] || [ "$OLDEST" != "$REPORTED" ]; then
+            echo "not outdated"
+            exit 0
+          fi
+
+          if has_label outdated; then
+            echo "already flagged - labelling only, not commenting again"
+            gh issue edit "$ISSUE" -R "$REPO" --add-label outdated
+            exit 0
+          fi
+
+          gh issue edit "$ISSUE" -R "$REPO" --add-label outdated
+          MSG="$(printf '%s\n' \
+            "Thanks for the report. This is filed against Light Presets \`$RAW\`, and the current release is \`$LATEST\`." \
+            "" \
+            "Could you update and check whether it still happens? A fair number of reports turn out to be already fixed, and knowing either way saves a round trip." \
+            "" \
+            "If it still reproduces on \`$LATEST\`, say so here and it will be picked up from this issue — no need to open a new one.")"
+          gh issue comment "$ISSUE" -R "$REPO" --body "$MSG"

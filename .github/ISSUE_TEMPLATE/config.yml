@@ -1,0 +1,16 @@
+# Force every issue through one of the forms, so nothing arrives unlabelled
+# and bug reports always carry the versions needed to reproduce them.
+blank_issues_enabled: false
+
+contact_links:
+  - name: Foundry VTT help and general questions
+    url: https://foundryvtt.com/community/
+    about: >-
+      Questions about Foundry itself, or about lighting in general rather than
+      a bug in this module. The community links there will get you a faster
+      answer than this tracker.
+  - name: How the presets work
+    url: https://github.com/mikiross87/light-presets#how-it-works
+    about: >-
+      The README covers what each preset does, how the bright/dim ratio follows
+      your drag, and how to add your own presets.
