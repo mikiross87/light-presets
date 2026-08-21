@@ -1,8 +1,8 @@
 {
   "id": "light-presets",
   "title": "Light Presets",
-  "description": "One-click lighting presets in the scene lighting toolbar, working like the core wall type buttons: click a preset, then drag to place. Thirteen presets across four groups &mdash; flame (Candle, Torch, Lantern, Bullseye Lantern, Campfire, Lava Glow), atmosphere (Moonlight, Fog Bank, Fey Lights, Ghostly), radiant magic (Magical Glow, Divine Radiance), and a Magical Darkness source. Each preset fully specifies its light configuration, so switching never inherits leftover values, and bright/dim behaviour is applied live in the drag preview. Built on the V14 placeable palette system: system-agnostic, no dependencies, no external assets.",
-  "version": "1.0.0",
+  "description": "One-click lighting presets in the scene lighting toolbar, working like the core wall type buttons: click a preset, then drag to place. Fourteen presets across four groups &mdash; flame (Candle, Torch, Lantern, Bullseye Lantern, Campfire, Chimney, Lava Glow), atmosphere (Moonlight, Fog Bank, Fey Lights, Ghostly), radiant magic (Magical Glow, Divine Radiance), and a Magical Darkness source. Each preset fully specifies its light configuration, so switching never inherits leftover values, and bright/dim behaviour is applied live in the drag preview. Built on the V14 placeable palette system: system-agnostic, no dependencies, no external assets.",
+  "version": "1.1.0",
   "authors": [{ "name": "Miguel Ross" }],
   "url": "https://github.com/mikiross87/light-presets",
   "bugs": "https://github.com/mikiross87/light-presets/issues",

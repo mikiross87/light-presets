@@ -77,12 +77,24 @@ const PRESETS = {
   },
   presetCampfire: {
     title: "Preset: Campfire",
-    description: "A larger, heavier flame animation with deep orange tones. Campfires, braziers, and fireplaces.",
+    description: "A larger, heavier flame animation with deep orange tones. Campfires, braziers, and open cooking fires.",
     icon: "fa-solid fa-campfire",
     config: {
       color: "#e2723f",
       attenuation: 0.55,
       animation: { type: "flame", speed: 4, intensity: 6 }
+    }
+  },
+  presetChimney: {
+    brightRatio: 0.25,
+    title: "Preset: Chimney (cone)",
+    description: "A fire set into a wall: a 180° spill that lights the room and nothing behind it, deeper and calmer than an open flame. The cone is built in rather than left to wall occlusion, because the light sits inside the wall footprint where walls would clip it. Dragging draws the cone; scroll while dragging to aim it into the room.",
+    icon: "fa-solid fa-fireplace",
+    config: {
+      color: "#d8663a",
+      angle: 180,
+      attenuation: 0.65,
+      animation: { type: "flame", speed: 3, intensity: 4 }
     }
   },
   presetMagical: {
