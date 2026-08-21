@@ -21,6 +21,7 @@ Requires **Foundry VTT V14** (built on the V14 placeable palette system). System
 | Lantern | Warm, steady, gentle flicker | half of dim |
 | Bullseye Lantern | Focused 60° cone — dragging draws the cone | half of dim |
 | Campfire | Heavy flame animation, deep orange | half of dim |
+| Chimney | Hearth set into a wall — 180° spill; dragging draws the cone | 25% of dim |
 | Magical Glow | Soft violet pulse | 25% of dim |
 | Moonlight | Pale steady blue-white, no animation | dim only |
 | Fog Bank | Grey swirling fog, reads as atmosphere | dim only |
