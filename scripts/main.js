@@ -6,6 +6,12 @@
  * every subsequently drawn ambient light uses it. The active preset shows a
  * pip on its button, exactly like the core wall presets.
  *
+ * Fourteen presets would be fourteen rows in a toolbar column that already
+ * holds the core lighting tools, so they are collapsed into three groups
+ * (GROUPS below). The toolbar shows one button per group; clicking one drills
+ * in to its presets plus a back button. A group button carries the pip when
+ * the active preset is one of its members.
+ *
  * Dim radius always comes from the drag gesture; presets control color,
  * animation, attenuation, etc. A preset with angle < 360 drags out a cone.
  * Each preset also carries a brightRatio (bright = ratio * dim, default 0.5
@@ -32,8 +38,32 @@ function lightConfig(overrides) {
   }, overrides, { inplace: false });
 }
 
+/**
+ * The preset groups, in toolbar order. Every preset names one of these keys;
+ * a preset whose group is unknown is reported at init and never shown.
+ * @type {Record<string, {title: string, description: string, icon: string}>}
+ */
+const GROUPS = {
+  flame: {
+    title: "Light Presets: Flame",
+    description: "Fire-lit sources \u2014 candles, torches, hearths, and lava.",
+    icon: "fa-solid fa-fire"
+  },
+  atmosphere: {
+    title: "Light Presets: Atmosphere",
+    description: "Mostly dim-only sources that colour a space rather than light it.",
+    icon: "fa-solid fa-cloud-moon"
+  },
+  magic: {
+    title: "Light Presets: Magic",
+    description: "Arcane and divine light, plus the magical darkness source.",
+    icon: "fa-solid fa-wand-magic-sparkles"
+  }
+};
+
 const PRESETS = {
   presetCandle: {
+    group: "flame",
     title: "Preset: Candle",
     description: "A small, warm flame with a quick low flicker that fades out close to the source. Suits bedside tables, shrines, and clusters of candles — place one light for a whole candelabra.",
     icon: "fa-solid fa-candle-holder",
@@ -45,6 +75,7 @@ const PRESETS = {
     }
   },
   presetTorch: {
+    group: "flame",
     title: "Preset: Torch",
     description: "The classic wall-sconce or handheld torch: strong warm light with a lively flicker.",
     icon: "fa-solid fa-fire-flame-curved",
@@ -55,6 +86,7 @@ const PRESETS = {
     }
   },
   presetLantern: {
+    group: "flame",
     title: "Preset: Lantern",
     description: "Warm, steady glow with only a gentle flicker — a hooded lantern by a door, or hung outside an inn.",
     icon: "fa-solid fa-lamp",
@@ -65,6 +97,7 @@ const PRESETS = {
     }
   },
   presetBullseye: {
+    group: "flame",
     title: "Preset: Bullseye Lantern (cone)",
     description: "A shuttered lantern that throws a focused 60° beam. Dragging draws the cone; scroll while dragging to aim it.",
     icon: "fa-solid fa-flashlight",
@@ -76,6 +109,7 @@ const PRESETS = {
     }
   },
   presetCampfire: {
+    group: "flame",
     title: "Preset: Campfire",
     description: "A larger, heavier flame animation with deep orange tones. Campfires, braziers, and open cooking fires.",
     icon: "fa-solid fa-campfire",
@@ -86,6 +120,7 @@ const PRESETS = {
     }
   },
   presetChimney: {
+    group: "flame",
     brightRatio: 0.25,
     title: "Preset: Chimney (cone)",
     description: "A fire set into a wall: a 180° spill that lights the room and nothing behind it, deeper and calmer than an open flame. The cone is built in rather than left to wall occlusion, because the light sits inside the wall footprint where walls would clip it. Dragging draws the cone; scroll while dragging to aim it into the room.",
@@ -98,6 +133,7 @@ const PRESETS = {
     }
   },
   presetMagical: {
+    group: "magic",
     brightRatio: 0.25,
     title: "Preset: Magical Glow",
     description: "A soft violet pulse for enchanted crystals, runes, and ambient arcane light.",
@@ -109,6 +145,7 @@ const PRESETS = {
     }
   },
   presetMoonlight: {
+    group: "atmosphere",
     brightRatio: 0,
     title: "Preset: Moonlight",
     description: "Pale, steady blue-white light with no animation. Windows at night, moonlit clearings, and skylights.",
@@ -121,6 +158,7 @@ const PRESETS = {
     }
   },
   presetFog: {
+    group: "atmosphere",
     brightRatio: 0,
     title: "Preset: Fog Bank",
     description: "Grey swirling fog rather than a lamp — low luminosity so it reads as atmosphere. Marshes, graveyards, and sewer haze.",
@@ -134,6 +172,7 @@ const PRESETS = {
     }
   },
   presetFey: {
+    group: "atmosphere",
     brightRatio: 0,
     title: "Preset: Fey Lights",
     description: "Soft pink shimmer using the fairy animation. Feywild groves, pixie swarms, and enchanted gardens.",
@@ -146,6 +185,7 @@ const PRESETS = {
     }
   },
   presetGhostly: {
+    group: "atmosphere",
     brightRatio: 0,
     title: "Preset: Ghostly",
     description: "Sickly green ghost-light flicker. Haunted halls, spectral apparitions, and cursed shrines.",
@@ -158,6 +198,7 @@ const PRESETS = {
     }
   },
   presetLava: {
+    group: "flame",
     title: "Preset: Lava Glow",
     description: "Deep red-orange glow with a slow, heavy flame roil. Lava pools, forge hearts, and embers.",
     icon: "fa-solid fa-volcano",
@@ -170,6 +211,7 @@ const PRESETS = {
     }
   },
   presetDivine: {
+    group: "magic",
     brightRatio: 0.25,
     title: "Preset: Divine Radiance",
     description: "Warm golden sunburst pulse. Altars, holy auras, and consecrated ground.",
@@ -181,6 +223,7 @@ const PRESETS = {
     }
   },
   presetDarkness: {
+    group: "magic",
     title: "Preset: Magical Darkness (darkness source)",
     description: "A darkness source, not a light: it carves an area of magical gloom out of existing illumination. Use for darkness spells and cursed zones.",
     icon: "fa-solid fa-eclipse",
@@ -230,11 +273,31 @@ function describeConfig(config, brightRatio) {
 }
 
 /**
- * Registered preset tools and their bright ratios, keyed by tool name.
- * Populated by the getSceneControlButtons hook; read by the drag-preview patch.
- * @type {Map<string, {createData: object, brightRatio: number}>}
+ * Every preset, resolved into the form the toolbar and the drag preview need.
+ * Populated at init from PRESETS, and holds all fourteen regardless of which
+ * group is open: the drag-preview patch has to find the active preset's bright
+ * ratio even when that preset's group is collapsed and it has no button.
+ * @type {Map<string, {name: string, title: string, description: string, icon: string,
+ *                     group: string, config: object, createData: object, brightRatio: number}>}
  */
 const REGISTERED = new Map();
+
+/** The group currently drilled into, or null when the group buttons are shown. */
+let openGroup = null;
+
+/** Tool-name markers, used to strip our own entries before rebuilding them. */
+const GROUP_TOOL_PREFIX = "lightPresetGroup_";
+const BACK_TOOL = "lightPresetBack";
+
+/** The presets belonging to a group, in declaration order. */
+function groupMembers(group) {
+  return [...REGISTERED.values()].filter(p => p.group === group);
+}
+
+/** A preset's display name, without the "Preset: " prefix its tool title carries. */
+function presetLabel(preset) {
+  return preset.title.replace(/^Preset: /, "");
+}
 
 /** The bright ratio of the currently active preset, or null if the palette doesn't match any preset. */
 function activeBrightRatio() {
@@ -245,43 +308,135 @@ function activeBrightRatio() {
   return null;
 }
 
-Hooks.on("getSceneControlButtons", controls => {
-  const lighting = controls.lighting;
-  if ( !lighting ) return;
-  // Slot the presets between the draw tool (order 2) and the day toggle (order 3).
-  let order = 2;
-  for ( const [name, { title, description, icon, config, brightRatio = 0.5 }] of Object.entries(PRESETS) ) {
-    order += 0.05;
-    const fullConfig = lightConfig(config);
-    const createData = { walls: true, vision: false, hidden: false, config: fullConfig };
-    REGISTERED.set(name, { createData, brightRatio });
-    lighting.tools[name] = {
-      name,
-      order,
-      title,
-      icon,
-      button: true,
-      createData,
-      onChange: onClickPreset,
-      toolclip: {
-        heading: title,
-        items: [
-          { paragraph: description },
-          ...describeConfig(fullConfig, brightRatio),
-          { paragraph: "Click to make this the default for new lights, then drag on the canvas to place one." }
-        ]
-      }
-    };
+/** A toolbar entry for one preset: click it, then drag on the canvas. */
+function presetTool(preset, order) {
+  return {
+    name: preset.name,
+    order,
+    title: preset.title,
+    icon: preset.icon,
+    button: true,
+    createData: preset.createData,
+    onChange: onClickPreset,
+    toolclip: {
+      heading: preset.title,
+      items: [
+        { paragraph: preset.description },
+        ...describeConfig(preset.config, preset.brightRatio),
+        { paragraph: "Click to make this the default for new lights, then drag on the canvas to place one." }
+      ]
+    }
+  };
+}
+
+/** A toolbar entry that drills in to one group's presets. */
+function groupTool(key, order) {
+  const { title, description, icon } = GROUPS[key];
+  const members = groupMembers(key);
+  return {
+    name: `${GROUP_TOOL_PREFIX}${key}`,
+    order,
+    title,
+    icon,
+    button: true,
+    // A getter rather than a fixed value: core reads createData to decide whether to
+    // draw the active-preset pip, both when rendering tools and from the palette
+    // setting's onChange (SceneControls#_updatePresetPips). Resolving the active
+    // member on every read keeps the pip honest even when the palette is changed
+    // from the config sheet rather than from one of our buttons.
+    get createData() {
+      const Palette = foundry.applications.sheets.palette.AmbientLightPalette;
+      const active = members.find(p => Palette.isActivePreset(p.createData));
+      return (active ?? members[0])?.createData;
+    },
+    onChange: () => showGroup(key),
+    toolclip: {
+      heading: title,
+      items: [
+        { paragraph: description },
+        { heading: "Presets", content: members.map(presetLabel).join(", ") },
+        { paragraph: "Click to open this group. The pip marks the group holding your active preset." }
+      ]
+    }
+  };
+}
+
+/** A toolbar entry that collapses the open group back to the group buttons. */
+function backTool(order) {
+  return {
+    name: BACK_TOOL,
+    order,
+    title: "Back to Preset Groups",
+    icon: "fa-solid fa-chevron-left",
+    button: true,
+    onChange: () => showGroup(null),
+    toolclip: {
+      heading: "Back to Preset Groups",
+      items: [{ paragraph: "Collapse this group and return to the Flame, Atmosphere, and Magic buttons." }]
+    }
+  };
+}
+
+/**
+ * Rebuild this module's entries in a lighting control to match the open group,
+ * slotting them between the draw tool (order 2) and the day toggle (order 3).
+ * Clears our previous entries first, so it is safe to call repeatedly.
+ */
+function buildPresetTools(lighting) {
+  for ( const name of Object.keys(lighting.tools) ) {
+    if ( REGISTERED.has(name) || name.startsWith(GROUP_TOOL_PREFIX) || (name === BACK_TOOL) ) {
+      delete lighting.tools[name];
+    }
   }
+  let order = 2;
+  const add = tool => lighting.tools[tool.name] = tool;
+  if ( openGroup ) {
+    add(backTool(order += 0.05));
+    for ( const preset of groupMembers(openGroup) ) add(presetTool(preset, order += 0.05));
+  }
+  else for ( const key of Object.keys(GROUPS) ) {
+    if ( groupMembers(key).length ) add(groupTool(key, order += 0.05));
+  }
+}
+
+/** Open a group, or collapse to the group buttons when passed null, and redraw the toolbar. */
+function showGroup(key) {
+  openGroup = key;
+  const lighting = ui.controls.controls.lighting;
+  if ( !lighting ) return;
+  buildPresetTools(lighting);
+  // Deliberately not { reset: true }, which would re-prepare every layer's controls.
+  // Rebuilding this one control in place is enough, and core resizes the column
+  // itself when the tool count changes (SceneControls#_prepareContext).
+  ui.controls.render({ parts: ["tools"] });
+}
+
+Hooks.on("getSceneControlButtons", controls => {
+  if ( controls.lighting ) buildPresetTools(controls.lighting);
 });
 
 /**
+ * Resolve the preset table once, and patch the drag preview.
+ *
  * Core hardcodes bright = 0.5 * dim when dragging out a new light
  * (LightingLayer#_updateDragPreview). Wrap it so the active preset's
  * brightRatio applies instead — the drag preview stays honest, and if the
  * palette no longer matches any preset the core behavior is untouched.
  */
 Hooks.once("init", () => {
+  for ( const [name, { title, description, icon, group, config, brightRatio = 0.5 }] of Object.entries(PRESETS) ) {
+    if ( !(group in GROUPS) ) {
+      console.warn(`Light Presets | preset "${name}" names unknown group "${group}" and will not be shown.`);
+    }
+    const fullConfig = lightConfig(config);
+    REGISTERED.set(name, {
+      name, title, description, icon, group,
+      config: fullConfig,
+      createData: { walls: true, vision: false, hidden: false, config: fullConfig },
+      brightRatio
+    });
+  }
+
   const proto = foundry.canvas.layers.LightingLayer.prototype;
   const original = proto._updateDragPreview;
   proto._updateDragPreview = function(event) {
