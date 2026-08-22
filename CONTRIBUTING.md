@@ -34,14 +34,32 @@ Notes:
 - Target `main`. CI must pass (ES module syntax check + manifest validation).
 - One logical change per PR, with a subject line that would read well in
   release notes — commit subjects become release-note bullets.
-- Don't bump `version` in `module.json`; the maintainer versions and tags
-  releases.
+- Don't bump `version` in `module.json`. Between releases it carries the *next*
+  version with a `-dev` suffix (e.g. `1.3.0-dev`); the maintainer sets the real
+  version when tagging.
 
 ## Releases (maintainer)
 
-Bump `version` in `module.json`, commit, tag `vX.Y.Z`, push the tag. CI
-builds the zip, publishes the GitHub release, and registers the version with
-the Foundry package registry.
+`main` is the only long-lived branch, and it carries unreleased work. There is
+no separate development branch, because what has been published is recorded by
+tags rather than by a branch: releases are cut from `vX.Y.Z` tags, and installs
+resolve a release asset, never a branch. `git log vX.Y.Z..main` is the
+unreleased set, and several merged pull requests routinely go out in one
+release.
+
+To cut one:
+
+1. Set `version` in `module.json` to the plain release version (drop the `-dev`
+   suffix), commit, tag `vX.Y.Z`, push the tag.
+2. Bump `version` to the next `-dev` (e.g. `1.4.0-dev`) and commit, so a clone
+   of `main` never reports itself as the released version — issue triage labels
+   a report `outdated` by comparing the version it names against the latest
+   release.
+
+Pushing the tag runs the CI validation against the tagged tree first; a release
+is only built if that passes. The release job then builds the zip, publishes the
+GitHub release with notes drawn from the commit subjects since the previous tag,
+and registers the version with the Foundry package registry.
 
 ### Prereleases
 
