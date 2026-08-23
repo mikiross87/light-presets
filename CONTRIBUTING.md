@@ -34,32 +34,21 @@ Notes:
 - Target `main`. CI must pass (ES module syntax check + manifest validation).
 - One logical change per PR, with a subject line that would read well in
   release notes — commit subjects become release-note bullets.
-- Don't bump `version` in `module.json`. Between releases it carries the *next*
-  version with a `-dev` suffix (e.g. `1.3.0-dev`); the maintainer sets the real
-  version when tagging.
+- Open an issue first for anything beyond a typo, and put `Closes #N` in the PR
+  body so merging closes it. Issues go through the forms; there are no blank
+  issues.
+- Add a line under `[Unreleased]` in `CHANGELOG.md` — _Added_, _Changed_,
+  _Fixed_ or _Removed_ — written for the GM reading the release page. That
+  section becomes the release notes verbatim.
+- Don't bump `version` in `module.json`. `main` carries the version of the last
+  release; the bump happens in a release PR (see [RELEASING.md](RELEASING.md)).
 
 ## Releases (maintainer)
 
-`main` is the only long-lived branch, and it carries unreleased work. There is
-no separate development branch, because what has been published is recorded by
-tags rather than by a branch: releases are cut from `vX.Y.Z` tags, and installs
-resolve a release asset, never a branch. `git log vX.Y.Z..main` is the
-unreleased set, and several merged pull requests routinely go out in one
-release.
-
-To cut one:
-
-1. Set `version` in `module.json` to the plain release version (drop the `-dev`
-   suffix), commit, tag `vX.Y.Z`, push the tag.
-2. Bump `version` to the next `-dev` (e.g. `1.4.0-dev`) and commit, so a clone
-   of `main` never reports itself as the released version — issue triage labels
-   a report `outdated` by comparing the version it names against the latest
-   release.
-
-Pushing the tag runs the CI validation against the tagged tree first; a release
-is only built if that passes. The release job then builds the zip, publishes the
-GitHub release with notes drawn from the commit subjects since the previous tag,
-and registers the version with the Foundry package registry.
+`main` is the only long-lived branch. What has been published is recorded by
+`vX.Y.Z` tags, not by a branch: installs resolve a release asset, never `main`.
+The full loop — issues, milestones, the release PR and tagging — is in
+[RELEASING.md](RELEASING.md).
 
 ### Prereleases
 
@@ -74,5 +63,5 @@ hyphen and treats it differently:
 
 To test one, install or update using that tag's own pinned manifest URL:
 `https://github.com/mikiross87/light-presets/releases/download/vX.Y.Z-beta.N/module.json`.
-Once it's confirmed good, cut the real release: bump to the plain version
-(`1.1.0`), commit, tag `v1.1.0`, push — that one *does* register normally.
+Once it's confirmed good, cut the real release through the normal release PR
+(`npm run release:prepare -- 1.1.0`) and tag — that one *does* register normally.

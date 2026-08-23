@@ -1,0 +1,9 @@
+{
+  "name": "light-presets",
+  "private": true,
+  "description": "Maintenance tooling for the Light Presets Foundry VTT module — the module itself has no build step",
+  "scripts": {
+    "test": "node --test 'tools/*.test.mjs'",
+    "release:prepare": "node tools/prepare-release.mjs"
+  }
+}

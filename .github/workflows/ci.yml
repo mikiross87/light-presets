@@ -40,6 +40,19 @@ jobs:
           done < <(find scripts -name '*.js' -print0)
           exit "$status"
 
+      - name: Unit tests
+        run: npm test
+
+      - name: CHANGELOG keeps an Unreleased section
+        run: |
+          set -euo pipefail
+          grep -q '^## \[Unreleased\]' CHANGELOG.md || { echo "CHANGELOG.md lost its [Unreleased] section" >&2; exit 1; }
+          # The last release must be documented: the tag workflow refuses to
+          # publish without its section, so catch a missing one here first.
+          version="$(jq -r .version module.json)"
+          grep -q "^## \[$version\]" CHANGELOG.md || { echo "CHANGELOG.md has no [$version] section for module.json's version" >&2; exit 1; }
+          echo "CHANGELOG OK"
+
       - name: Validate module.json
         run: |
           set -euo pipefail

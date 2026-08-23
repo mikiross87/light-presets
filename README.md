@@ -48,6 +48,13 @@ All presets live in a single table (`PRESETS`) at the top of `scripts/main.js` â
 
 The groups themselves are the `GROUPS` table just above it: a key, a title, a tooltip description, and a Font Awesome icon. Add a group there and presets can name it; a preset naming a group that doesn't exist is reported in the console and never shown.
 
+## Contributing
+
+Found a problem or want a preset that isn't here? [Open an issue](https://github.com/mikiross87/light-presets/issues/new/choose).
+How to add a preset is in [CONTRIBUTING.md](CONTRIBUTING.md); what changed in
+each version is in [CHANGELOG.md](CHANGELOG.md), and the release process in
+[RELEASING.md](RELEASING.md).
+
 ## License
 
 [MIT](LICENSE). This module contains no Foundry VTT source code; it uses the Foundry API under the [Limited License Agreement for Package Development](https://foundryvtt.com/article/license/). Icons are Font Awesome classes bundled with Foundry itself; no icon assets are distributed with this module.
