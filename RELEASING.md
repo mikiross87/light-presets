@@ -21,7 +21,9 @@ issue ──► milestone ──► branch + PR (Closes #N) ──► main ─�
    | `maintenance` | CI, tooling, docs, dependencies; nothing a GM would notice |
    | `regression`  | worked in a previous release; prioritise it               |
 
-2. **A milestone is a planned release**, named after its tag: `v1.3.0`. Assign
+2. **A milestone is a planned release**, named after its tag — and it holds
+   *issues only*. PRs stay out of milestones (they say `Closes #N` instead), so
+   the progress bar counts each piece of work once. Milestones are named `v1.3.0`. Assign
    an issue to a milestone when you intend to ship it there; leave it
    unassigned while it is only a wish. The milestone's progress bar is the
    release plan, and a bug found after a release goes into the next patch
@@ -46,7 +48,7 @@ rest):
 git checkout main && git pull
 npm run release:prepare -- 1.3.0      # bumps module.json, rolls the changelog, commits on release/v1.3.0
 git push -u origin release/v1.3.0
-gh pr create --fill --milestone v1.3.0
+gh pr create --fill
 ```
 
 Review the `[1.3.0]` section — it becomes the release body — and merge once
