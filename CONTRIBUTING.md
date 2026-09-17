@@ -31,7 +31,8 @@ Notes:
 
 ## Pull requests
 
-- Target `main`. CI must pass (ES module syntax check + manifest validation).
+- Target `main`. CI must pass: ES module syntax check, unit tests, CHANGELOG
+  shape, manifest validation.
 - One logical change per PR, with commit subjects written as prose rather than
   conventional-commit prefixes. Release notes come from `CHANGELOG.md`, not from
   commit subjects.
@@ -68,3 +69,8 @@ To test one, install or update using that tag's own pinned manifest URL:
 `https://github.com/mikiross87/light-presets/releases/download/vX.Y.Z-beta.N/module.json`.
 Once it's confirmed good, cut the real release through the normal release PR
 (`npm run release:prepare -- 1.1.0`) and tag — that one *does* register normally.
+Staging the beta emptied `[Unreleased]` into its own section, though, so until
+[merchant-presets#76](https://github.com/mikiross87/merchant-presets/issues/76)
+is fixed, move those entries back under `[Unreleased]` first. Otherwise
+`release:prepare` either refuses outright or writes release notes covering only
+what changed since the beta.
