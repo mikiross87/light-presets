@@ -34,7 +34,8 @@ Notes:
 - Target `main`. CI must pass: ES module syntax check, unit tests, CHANGELOG
   shape, manifest validation.
 - One logical change per PR, with commit subjects written as prose rather than
-  conventional-commit prefixes. Release notes come from `CHANGELOG.md`, not from
+  conventional-commit prefixes — `chore(release):`, which `release:prepare`
+  writes, is the one exception. Release notes come from `CHANGELOG.md`, not from
   commit subjects.
 - Open an issue first for anything beyond a typo, and put `Closes #N` in the PR
   body so merging closes it. Issues go through the forms; there are no blank
