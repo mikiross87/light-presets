@@ -55,23 +55,22 @@ The full loop — issues, milestones, the release PR and tagging — is in
 
 ### Prereleases
 
-To let a change bake before it's official, stage a semver prerelease the same
-way. For example, run `npm run release:prepare -- 1.1.0-beta.1`, merge the PR,
-and tag `v1.1.0-beta.1`. The release workflow detects the hyphen and handles the
-prerelease differently:
+To let a change bake before it's official, tag `main` with a semver prerelease
+version — for example `git tag -a v1.3.0-beta.1 -m "v1.3.0-beta.1"`, then push
+the tag. There is no release PR: `main` keeps the last released version, and the
+workflow takes the prerelease's version from the tag. It detects the hyphen and
+handles the prerelease differently:
 
 - Marked as a GitHub **prerelease** (won't show as the repo's "Latest release").
 - **Not** registered with the Foundry package registry, and the milestone stays
   open.
 - **Not** picked up by the stable `releases/latest/download/module.json`
   manifest, so existing installs never auto-update to it.
+- Its release notes are whatever is under `[Unreleased]` when it is tagged.
 
 To test one, install or update using that tag's own pinned manifest URL:
 `https://github.com/mikiross87/light-presets/releases/download/vX.Y.Z-beta.N/module.json`.
 Once it's confirmed good, cut the real release through the normal release PR
-(`npm run release:prepare -- 1.1.0`) and tag — that one *does* register normally.
-Staging the beta emptied `[Unreleased]` into its own section, though, so until
-[merchant-presets#76](https://github.com/mikiross87/merchant-presets/issues/76)
-is fixed, move those entries back under `[Unreleased]` first. Otherwise
-`release:prepare` either refuses outright or writes release notes covering only
-what changed since the beta.
+(`npm run release:prepare -- 1.3.0`) and tag — that one *does* register normally.
+Because the beta left `[Unreleased]` alone, its notes cover the whole release
+rather than only what followed the beta.
