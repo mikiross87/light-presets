@@ -16,12 +16,20 @@ jobs:
   release:
     needs: validate
     runs-on: ubuntu-latest
-    env:
-      FOUNDRY_RELEASE_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          # This job holds contents: write. No later step needs git auth: tags
+          # are already fetched, and the release action and the milestone step
+          # call the API with their own token.
+          persist-credentials: false
+
+      # Same Node as the validate job, for the release-notes step that runs
+      # tools/changelog.mjs, rather than whatever the runner image ships.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 22
 
       - name: Verify tag matches module.json version
         run: |
@@ -114,9 +122,18 @@ jobs:
             module.zip
 
       - name: Publish to Foundry package registry
-        if: ${{ env.FOUNDRY_RELEASE_TOKEN != '' && steps.prerelease.outputs.is_prerelease != 'true' }}
+        if: ${{ steps.prerelease.outputs.is_prerelease != 'true' }}
+        # Scoped to this step: no other step, including the third-party
+        # actions above, needs the registry token.
+        env:
+          FOUNDRY_RELEASE_TOKEN: ${{ secrets.FOUNDRY_RELEASE_TOKEN }}
         run: |
           set -euo pipefail
+          # Inert until the secret is set, so a fork's tag never fails here.
+          if [ -z "${FOUNDRY_RELEASE_TOKEN:-}" ]; then
+            echo "FOUNDRY_RELEASE_TOKEN not set - skipping registry publish."
+            exit 0
+          fi
           BODY="$(jq -n \
             --arg id "$(jq -r .id module.json)" \
             --arg version "$(jq -r .version module.json)" \
