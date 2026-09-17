@@ -31,9 +31,12 @@ Notes:
 
 ## Pull requests
 
-- Target `main`. CI must pass (ES module syntax check + manifest validation).
-- One logical change per PR, with a subject line that would read well in
-  release notes — commit subjects become release-note bullets.
+- Target `main`. CI must pass: ES module syntax check, unit tests, CHANGELOG
+  shape, manifest validation.
+- One logical change per PR, with commit subjects written as prose rather than
+  conventional-commit prefixes — `chore(release):`, which `release:prepare`
+  writes, is the one exception. Release notes come from `CHANGELOG.md`, not from
+  commit subjects.
 - Open an issue first for anything beyond a typo, and put `Closes #N` in the PR
   body so merging closes it. Issues go through the forms; there are no blank
   issues.
@@ -52,12 +55,14 @@ The full loop — issues, milestones, the release PR and tagging — is in
 
 ### Prereleases
 
-To let a change bake before it's official, use a semver prerelease version —
-e.g. `1.1.0-beta.1` in `module.json`, tagged `v1.1.0-beta.1`. CI detects the
-hyphen and treats it differently:
+To let a change bake before it's official, stage a semver prerelease the same
+way. For example, run `npm run release:prepare -- 1.1.0-beta.1`, merge the PR,
+and tag `v1.1.0-beta.1`. The release workflow detects the hyphen and handles the
+prerelease differently:
 
 - Marked as a GitHub **prerelease** (won't show as the repo's "Latest release").
-- **Not** registered with the Foundry package registry.
+- **Not** registered with the Foundry package registry, and the milestone stays
+  open.
 - **Not** picked up by the stable `releases/latest/download/module.json`
   manifest, so existing installs never auto-update to it.
 
@@ -65,3 +70,8 @@ To test one, install or update using that tag's own pinned manifest URL:
 `https://github.com/mikiross87/light-presets/releases/download/vX.Y.Z-beta.N/module.json`.
 Once it's confirmed good, cut the real release through the normal release PR
 (`npm run release:prepare -- 1.1.0`) and tag — that one *does* register normally.
+Staging the beta emptied `[Unreleased]` into its own section, though, so until
+[merchant-presets#76](https://github.com/mikiross87/merchant-presets/issues/76)
+is fixed, move those entries back under `[Unreleased]` first. Otherwise
+`release:prepare` either refuses outright or writes release notes covering only
+what changed since the beta.
