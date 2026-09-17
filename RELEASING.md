@@ -23,11 +23,15 @@ issue ──► milestone ──► branch + PR (Closes #N) ──► main ─�
 
 2. **A milestone is a planned release**, named after its tag — and it holds
    *issues only*. PRs stay out of milestones (they say `Closes #N` instead), so
-   the progress bar counts each piece of work once. Milestones are named `v1.3.0`. Assign
-   an issue to a milestone when you intend to ship it there; leave it
-   unassigned while it is only a wish. The milestone's progress bar is the
-   release plan, and a bug found after a release goes into the next patch
-   milestone (`v1.3.1`) rather than back into the shipped one.
+   the progress bar counts each piece of work once. Milestones are named
+   `v1.3.0`. A milestone holds only what changes the module a GM installs:
+   `maintenance` — docs, CI, `tools/` — stays unmilestoned, the same line the
+   changelog draws, and work that has to land before a release says so in the
+   issue rather than by being milestoned. Assign an issue to a milestone when
+   you intend to ship it there; leave it unassigned while it is only a wish.
+   The milestone's progress bar is the release plan, and a bug found after a
+   release goes into the next patch milestone (`v1.3.1`) rather than back into
+   the shipped one.
 
 3. **One branch and PR per issue**, with `Closes #N` in the PR body so merging
    closes the issue and GitHub links the two. Add a line under `[Unreleased]`
