@@ -31,8 +31,9 @@ Notes:
 
 ## Pull requests
 
-- Target `main`. CI must pass: ES module syntax check, unit tests, CHANGELOG
-  shape, manifest validation.
+- Target `main`, or the integration branch while one is open (see
+  [RELEASING.md](RELEASING.md#branches)). CI must pass: ES module syntax
+  check, unit tests, CHANGELOG shape, manifest validation.
 - One logical change per PR, with commit subjects written as prose rather than
   conventional-commit prefixes — `chore(release):`, which `release:prepare`
   writes, is the one exception. Release notes come from `CHANGELOG.md`, not from
