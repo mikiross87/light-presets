@@ -43,6 +43,25 @@ issue ──► milestone ──► branch + PR (Closes #N) ──► main ─�
    work is visible in `CHANGELOG.md` and the open milestone, not in a
    pre-release version string that Foundry would show to players.
 
+## Branches
+
+GitHub Flow with release PRs, not gitflow: there is no `develop`.
+
+| branch           | lives        | comes from | merges into |
+| ---------------- | ------------ | ---------- | ----------- |
+| `main`           | always       |            |             |
+| issue branch     | until its PR | `main`     | `main`      |
+| `release/vX.Y.Z` | until its PR | `main`     | `main`      |
+
+A hotfix is an issue branch released as a patch (see [Hotfixes](#hotfixes)).
+Foundry installs from the latest release, never from a branch, so `main` does
+not have to be the published version for GMs to be safe. A long-lived
+integration branch is the exception, for a major version that can't land in
+releasable stages. Add it to `ci.yml`'s `push` and `pull_request` branches and
+give it `main`'s protection, merge `main` into it after every release, and
+close its issues by hand (`Closes #N` only fires on the default branch). It
+merges into `main` through the release PR and is deleted.
+
 ## Cutting a release
 
 When the milestone is done (or you decide to ship what's there and move the
