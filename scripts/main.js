@@ -229,7 +229,7 @@ const PRESETS = {
     icon: "fa-solid fa-eclipse",
     config: {
       negative: true,
-      animation: { type: "magical", speed: 3, intensity: 4 }
+      animation: { type: "magicalGloom", speed: 3, intensity: 4 }
     }
   }
 };

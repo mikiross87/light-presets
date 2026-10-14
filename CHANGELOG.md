@@ -12,6 +12,12 @@ a GM would never notice (CI, tooling, docs) needs no entry.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Magical Darkness** now animates with core's Magical Gloom effect; it had
+  been placing a static darkness source since 1.0.0, and its tooltip said
+  "None (steady light)" (#49)
+
 ## [1.2.0] - 2026-08-21
 
 ### Changed
