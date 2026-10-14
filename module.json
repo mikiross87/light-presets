@@ -2,7 +2,7 @@
   "id": "light-presets",
   "title": "Light Presets",
   "description": "<p>One-click lighting presets in the scene lighting toolbar, working exactly like the core wall type buttons: pick a preset, then drag to place. Presets are grouped by theme behind a few toolbar buttons, the active preset shows an indicator pip, and your choice persists between sessions.</p><p>Each preset fully specifies its light configuration, so switching never inherits leftover values, and bright/dim behaviour is applied live in the drag preview &mdash; what you see while dragging is what you get.</p><p>Built on the V14 placeable palette system: system-agnostic, no dependencies, no external assets.</p>",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "authors": [{ "name": "Miguel Ross" }],
   "url": "https://github.com/mikiross87/light-presets",
   "bugs": "https://github.com/mikiross87/light-presets/issues",

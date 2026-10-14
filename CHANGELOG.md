@@ -12,6 +12,8 @@ a GM would never notice (CI, tooling, docs) needs no entry.
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-10-14
+
 ### Fixed
 
 - **Magical Darkness** now animates with core's Magical Gloom effect; it had
@@ -52,7 +54,8 @@ a GM would never notice (CI, tooling, docs) needs no entry.
 - Hover tooltips describing each preset using Foundry's localized animation
   names
 
-[Unreleased]: https://github.com/mikiross87/light-presets/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/mikiross87/light-presets/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/mikiross87/light-presets/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/mikiross87/light-presets/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/mikiross87/light-presets/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/mikiross87/light-presets/releases/tag/v1.0.0
