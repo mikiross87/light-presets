@@ -62,8 +62,8 @@ tag. The full loop — issues, milestones, the release PR and tagging — is in
 To let a change bake before it's official, tag `develop` with a semver
 prerelease version — for example `git tag -a v1.3.0-beta.1 -m "v1.3.0-beta.1"`,
 then push the tag. There is no release PR: `main` and `develop` keep the last
-released version, and the workflow takes the prerelease's version from the tag. It detects the hyphen and
-handles the prerelease differently:
+released version, and the workflow takes the prerelease's version from the tag.
+It detects the hyphen and handles the prerelease differently:
 
 - Marked as a GitHub **prerelease** (won't show as the repo's "Latest release").
 - **Not** registered with the Foundry package registry, and the milestone stays
