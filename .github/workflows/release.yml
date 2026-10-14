@@ -100,7 +100,9 @@ jobs:
           mv module.json.tmp module.json
 
       - name: Build module archive
-        run: zip -r module.zip . -x "*.git*" -x ".github/*" -x "tools/*" -x "node_modules/*" -x "package*.json"
+        run: |
+          zip -r module.zip . -x "*.git*" -x ".github/*" -x "tools/*" -x "node_modules/*" -x "package*.json" \
+            -x "RELEASING.md" -x "CONTRIBUTING.md"
 
       - name: Require release notes for this version
         run: |
