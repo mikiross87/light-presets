@@ -31,7 +31,7 @@ Notes:
 
 ## Pull requests
 
-- Target `main`, or the integration branch while one is open (see
+- Branch from `develop` and target it (see
   [RELEASING.md](RELEASING.md#branches)). CI must pass: ES module syntax
   check, unit tests, CHANGELOG shape, manifest validation.
 - One logical change per PR, with commit subjects written as prose rather than
@@ -44,22 +44,25 @@ Notes:
 - Add a line under `[Unreleased]` in `CHANGELOG.md` — _Added_, _Changed_,
   _Fixed_ or _Removed_ — written for the GM reading the release page. That
   section becomes the release notes verbatim.
-- Don't bump `version` in `module.json`. `main` carries the version of the last
-  release; the bump happens in a release PR (see [RELEASING.md](RELEASING.md)).
+- Don't bump `version` in `module.json`. `main` and `develop` carry the version
+  of the last release; the bump happens in a release PR (see
+  [RELEASING.md](RELEASING.md)).
 
 ## Releases (maintainer)
 
-`main` is the only long-lived branch. What has been published is recorded by
-`vX.Y.Z` tags, not by a branch: installs resolve a release asset, never `main`.
-The full loop — issues, milestones, the release PR and tagging — is in
+`main` holds released code only and `develop` collects the work for the next
+release. What has been published is recorded by `vX.Y.Z` tags, not by a branch:
+installs resolve a release asset, never a branch. The release PR merges into
+`main` with a merge commit, and `main` is merged back into `develop` after the
+tag. The full loop — issues, milestones, the release PR and tagging — is in
 [RELEASING.md](RELEASING.md).
 
 ### Prereleases
 
-To let a change bake before it's official, tag `main` with a semver prerelease
-version — for example `git tag -a v1.3.0-beta.1 -m "v1.3.0-beta.1"`, then push
-the tag. There is no release PR: `main` keeps the last released version, and the
-workflow takes the prerelease's version from the tag. It detects the hyphen and
+To let a change bake before it's official, tag `develop` with a semver
+prerelease version — for example `git tag -a v1.3.0-beta.1 -m "v1.3.0-beta.1"`,
+then push the tag. There is no release PR: `main` and `develop` keep the last
+released version, and the workflow takes the prerelease's version from the tag. It detects the hyphen and
 handles the prerelease differently:
 
 - Marked as a GitHub **prerelease** (won't show as the repo's "Latest release").
