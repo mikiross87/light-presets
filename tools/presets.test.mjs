@@ -152,3 +152,14 @@ test("every module string comes from lang/en.json, and every entry there is used
   for ( const key of own ) assert.ok(key in table, `${key} is missing from lang/en.json`);
   for ( const key of Object.keys(table) ) assert.ok(requestedKeys.has(key), `${key} in lang/en.json is never used`);
 });
+
+test("cone presets say they aim by drag direction, never by scrolling during the drag", async () => {
+  const toolbar = await toolbarText();
+  const cones = Object.values(toolbar).flat().filter(t => t.toolclip?.items.some(i => i.heading === "Emission angle"));
+  assert.equal(cones.length, 2);
+  for ( const { title, toolclip } of cones ) {
+    const text = JSON.stringify(toolclip);
+    assert.ok(!/scroll while dragging/i.test(text), `${title} still says to scroll while dragging`);
+    assert.ok(toolclip.items.some(i => i.heading === "Aim"), `${title} has no Aim line`);
+  }
+});
