@@ -21,9 +21,9 @@ Requires **Foundry VTT V14** (built on the V14 placeable palette system). System
 | Candle | Flame | Small warm flame, quick low flicker, fades fast | half of dim |
 | Torch | Flame | Classic strong warm flicker | half of dim |
 | Lantern | Flame | Warm, steady, gentle flicker | half of dim |
-| Bullseye Lantern | Flame | Focused 60° cone — dragging draws the cone | half of dim |
+| Bullseye Lantern | Flame | Focused 60° cone — points the way you drag | half of dim |
 | Campfire | Flame | Heavy flame animation, deep orange | half of dim |
-| Chimney | Flame | Hearth set into a wall — 180° spill; dragging draws the cone | 25% of dim |
+| Chimney | Flame | Hearth set into a wall — 180° spill that points the way you drag | 25% of dim |
 | Lava Glow | Flame | Deep red-orange, slow heavy flame | half of dim |
 | Moonlight | Atmosphere | Pale steady blue-white, no animation | dim only |
 | Fog Bank | Atmosphere | Grey swirling fog, reads as atmosphere | dim only |
