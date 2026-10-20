@@ -45,9 +45,9 @@ Hover a group for a tooltip listing its presets, or any preset for a tooltip car
 
 ## Customizing
 
-All presets live in a single table (`PRESETS`) at the top of `scripts/main.js` — color, animation, alpha, attenuation, `brightRatio`, tooltip text, and the `group` the preset belongs to. Add or edit entries and reload.
+All presets live in a single table (`PRESETS`) at the top of `scripts/main.js` — color, animation, alpha, attenuation, `brightRatio`, and the `group` the preset belongs to. Add or edit entries and reload. Preset and group names and their tooltip text live in `lang/en.json` under `LIGHTPRESETS.Preset.<key>` and `LIGHTPRESETS.Group.<key>`; add a file for another language and list it under `languages` in `module.json`.
 
-The groups themselves are the `GROUPS` table just above it: a key, a title, a tooltip description, and a Font Awesome icon. Add a group there and presets can name it; a preset naming a group that doesn't exist is reported in the console and never shown.
+The groups themselves are the `GROUPS` table just above it: a key and a Font Awesome icon, with its name and description in `lang/en.json`. Add a group there and presets can name it; a preset naming a group that doesn't exist is reported in the console and never shown.
 
 ## Contributing
 
