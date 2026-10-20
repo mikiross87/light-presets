@@ -140,3 +140,13 @@ test("toolbar text matches the English snapshot", async () => {
   const expected = JSON.parse(readFileSync(new URL("./toolbar-en.snapshot.json", import.meta.url), "utf8"));
   assert.deepEqual(await toolbarText(), expected);
 });
+
+test("every module string comes from lang/en.json, and every entry there is used", async () => {
+  requestedKeys.clear();
+  await toolbarText();
+  const own = [...requestedKeys].filter(k => k.startsWith("LIGHTPRESETS."));
+  assert.ok(own.length, "the module requests no LIGHTPRESETS.* keys");
+  const table = existsSync(EN_PATH) ? flatten(JSON.parse(readFileSync(EN_PATH, "utf8"))) : {};
+  for ( const key of own ) assert.ok(key in table, `${key} is missing from lang/en.json`);
+  for ( const key of Object.keys(table) ) assert.ok(requestedKeys.has(key), `${key} in lang/en.json is never used`);
+});
