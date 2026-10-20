@@ -40,6 +40,7 @@ Hover a group for a tooltip listing its presets, or any preset for a tooltip car
 - Clicking a preset stores its data in Foundry's core light palette setting (`core.ambientLightPalette`), the V14 mechanism that supplies defaults for newly drawn lights. This is the same pattern core uses for its wall type presets.
 - The dim radius always comes from your drag. Core hardcodes bright = ½ × dim during the drag; this module wraps `LightingLayer#_updateDragPreview` so each preset's bright ratio (0, 0.25, or 0.5) applies live in the preview and in the created light. If your palette no longer matches any preset, core behavior is untouched.
 - Presets fully specify their light config, so switching presets never inherits leftover values from a previous one.
+- A light placed with a preset records it in `flags["light-presets"].preset`, using the preset's key from the `PRESETS` table (`presetTorch`, `presetFog`, …). Macros and tools like Mass Edit can select by it. The keys are stable across releases; a light changed from its preset before it's placed isn't tagged, and the flag isn't updated if you edit the light afterwards.
 - Opening or closing a group rebuilds only the lighting control's own tools and re-renders the toolbar; the other scene controls are never re-prepared. Group buttons resolve their `createData` on read, so core's own pip logic keeps working even when you change the palette from the light config sheet rather than from a preset button.
 
 ## Customizing
