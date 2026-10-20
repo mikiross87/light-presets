@@ -328,7 +328,7 @@ function groupTool(key, order) {
       heading: title,
       items: [
         { paragraph: t(`Group.${key}.Description`) },
-        { heading: t("Toolclip.GroupPresets"), content: members.map(presetLabel).join(", ") },
+        { heading: t("Toolclip.GroupPresets"), content: game.i18n.getListFormatter({ type: "unit" }).format(members.map(presetLabel)) },
         { paragraph: t("Toolclip.GroupHint") }
       ]
     }
@@ -346,7 +346,10 @@ function backTool(order) {
     onChange: () => showGroup(null),
     toolclip: {
       heading: t("Back.Title"),
-      items: [{ paragraph: t("Back.Hint") }]
+      items: [{ paragraph: t("Back.Hint", {
+        groups: game.i18n.getListFormatter().format(
+          Object.keys(GROUPS).filter(key => groupMembers(key).length).map(key => t(`Group.${key}.Name`)))
+      }) }]
     }
   };
 }

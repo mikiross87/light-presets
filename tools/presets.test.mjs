@@ -49,7 +49,9 @@ function i18nStub() {
   const localize = key => { requestedKeys.add(key); return table[key] ?? key; };
   // Same substitution rule as Foundry's Localization#format: {name} → data.name.
   const format = (key, data = {}) => localize(key).replace(/{(\w+)}/g, (m, k) => (k in data ? String(data[k]) : m));
-  return { localize, format };
+  // Foundry's Localization#getListFormatter, in English.
+  const getListFormatter = ({ style = "long", type = "conjunction" } = {}) => new Intl.ListFormat("en", { style, type });
+  return { localize, format, getListFormatter };
 }
 
 // Shared across calls: main.js is imported once per process, so its Hooks.on registrations

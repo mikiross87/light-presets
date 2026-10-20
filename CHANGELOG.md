@@ -17,8 +17,6 @@ a GM would never notice (CI, tooling, docs) needs no entry.
 - Lights placed with a preset now remember which one, in
   `flags["light-presets"].preset` (for example `presetTorch`), so macros and
   tools like Mass Edit can find and update every light of a preset (#58).
-- The module can now be translated: every name, tooltip and hint lives in
-  `lang/en.json`, ready for other language files. English text is unchanged (#54).
 
 ### Changed
 

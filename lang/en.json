@@ -76,7 +76,7 @@
     },
     "Back": {
       "Title": "Back to Preset Groups",
-      "Hint": "Collapse this group and return to the Flame, Atmosphere, and Magic buttons."
+      "Hint": "Collapse this group and return to the {groups} buttons."
     },
     "Toolclip": {
       "Type": "Type",
