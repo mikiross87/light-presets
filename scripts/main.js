@@ -237,7 +237,10 @@ function describeConfig(config, brightRatio) {
       ? t("Toolclip.AnimationValue", { label: game.i18n.localize(animConfig.label), speed: anim.speed, intensity: anim.intensity })
       : t("Toolclip.AnimationNone")
   });
-  if ( config.angle < 360 ) items.push({ heading: t("Toolclip.Angle"), content: t("Toolclip.AngleValue", { angle: config.angle }) });
+  if ( config.angle < 360 ) items.push(
+    { heading: t("Toolclip.Angle"), content: t("Toolclip.AngleValue", { angle: config.angle }) },
+    { heading: t("Toolclip.Aim"), content: t("Toolclip.AimValue") }
+  );
   items.push({ heading: t("Toolclip.Intensity"), content: t("Toolclip.IntensityValue", { alpha: config.alpha, luminosity: config.luminosity }) });
   items.push({ heading: t("Toolclip.Attenuation"), content: t("Toolclip.AttenuationValue", { attenuation: config.attenuation }) });
   items.push({ heading: t("Toolclip.Radius"), content: describeBrightRatio(brightRatio) });

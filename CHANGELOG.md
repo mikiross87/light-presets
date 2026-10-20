@@ -23,6 +23,13 @@ a GM would never notice (CI, tooling, docs) needs no entry.
 - **Fog Bank** swirls visibly from moderate scene darkness instead of barely
   registering; its tooltip now says it needs some darkness to read (#57).
 
+### Fixed
+
+- **Bullseye Lantern** and **Chimney** tooltips no longer tell you to scroll
+  while dragging to aim, which Foundry V14 doesn't do. The cone points the way
+  you drag; a new **Aim** line says so, and that a placed light turns with
+  Shift + scroll (#59).
+
 ## [1.2.1] - 2026-10-14
 
 ### Fixed
