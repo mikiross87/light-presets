@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync, existsSync } from "node:fs";
 
 // Animation keys of CONFIG.Canvas.lightAnimations and CONFIG.Canvas.darknessAnimations
 // in Foundry V14 (build 14.369). Core resolves a source's animation with
@@ -33,6 +34,26 @@ function diffObject(original, other) {
   return diff;
 }
 
+const EN_PATH = new URL("../lang/en.json", import.meta.url);
+
+/** Flatten nested translation JSON to dotted keys, as Foundry does. */
+function flatten(obj, prefix = "") {
+  return Object.entries(obj).reduce((out, [k, v]) => (v && typeof v === "object")
+    ? Object.assign(out, flatten(v, `${prefix}${k}.`)) : Object.assign(out, { [`${prefix}${k}`]: v }), {});
+}
+
+const requestedKeys = new Set();
+
+function i18nStub() {
+  const table = existsSync(EN_PATH) ? flatten(JSON.parse(readFileSync(EN_PATH, "utf8"))) : {};
+  const localize = key => { requestedKeys.add(key); return table[key] ?? key; };
+  // Same substitution rule as Foundry's Localization#format: {name} → data.name.
+  const format = (key, data = {}) => localize(key).replace(/{(\w+)}/g, (m, k) => (k in data ? String(data[k]) : m));
+  // Foundry's Localization#getListFormatter, in English.
+  const getListFormatter = ({ style = "long", type = "conjunction" } = {}) => new Intl.ListFormat("en", { style, type });
+  return { localize, format, getListFormatter };
+}
+
 // Shared across calls: main.js is imported once per process, so its Hooks.on registrations
 // land here on the first call only.
 const hooks = {};
@@ -49,7 +70,7 @@ async function loadPresetTools() {
   globalThis.CONFIG = {
     Canvas: { lightAnimations: labelled(LIGHT_ANIMATIONS), darknessAnimations: labelled(DARKNESS_ANIMATIONS) }
   };
-  globalThis.game = { i18n: { localize: key => key } };
+  globalThis.game = { i18n: i18nStub() };
   const lighting = { tools: {} };
   globalThis.ui = { controls: { controls: { lighting }, render() {} } };
   await import("../scripts/main.js");
@@ -99,4 +120,35 @@ test("every placed light matching a preset records it in its flags", async () =>
 
   placed.config = { ...placed.config, color: "#123456" };
   assert.deepEqual(createLight(placed), []);
+});
+
+/** Title and toolclip of every tool the module builds, top level first, then each group opened. */
+async function toolbarText() {
+  const { hooks } = await loadPresetTools();
+  const lighting = { tools: {} };
+  globalThis.ui.controls.controls.lighting = lighting;
+  hooks.getSceneControlButtons({ lighting });
+  const text = tools => Object.values(tools).map(({ name, title, toolclip }) => ({ name, title, toolclip }));
+  const out = { top: text(lighting.tools) };
+  for ( const group of Object.values(lighting.tools) ) {
+    group.onChange();
+    out[group.name] = text(lighting.tools);
+    lighting.tools.lightPresetBack.onChange();
+  }
+  return out;
+}
+
+test("toolbar text matches the English snapshot", async () => {
+  const expected = JSON.parse(readFileSync(new URL("./toolbar-en.snapshot.json", import.meta.url), "utf8"));
+  assert.deepEqual(await toolbarText(), expected);
+});
+
+test("every module string comes from lang/en.json, and every entry there is used", async () => {
+  requestedKeys.clear();
+  await toolbarText();
+  const own = [...requestedKeys].filter(k => k.startsWith("LIGHTPRESETS."));
+  assert.ok(own.length, "the module requests no LIGHTPRESETS.* keys");
+  const table = existsSync(EN_PATH) ? flatten(JSON.parse(readFileSync(EN_PATH, "utf8"))) : {};
+  for ( const key of own ) assert.ok(key in table, `${key} is missing from lang/en.json`);
+  for ( const key of Object.keys(table) ) assert.ok(requestedKeys.has(key), `${key} in lang/en.json is never used`);
 });

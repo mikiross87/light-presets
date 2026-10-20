@@ -39,25 +39,24 @@ function lightConfig(overrides) {
   }, overrides, { inplace: false });
 }
 
+/** Look up one of this module's strings; `data` fills {placeholders}. */
+function t(key, data) {
+  return data ? game.i18n.format(`LIGHTPRESETS.${key}`, data) : game.i18n.localize(`LIGHTPRESETS.${key}`);
+}
+
 /**
  * The preset groups, in toolbar order. Every preset names one of these keys;
  * a preset whose group is unknown is reported at init and never shown.
- * @type {Record<string, {title: string, description: string, icon: string}>}
+ * @type {Record<string, {icon: string}>}
  */
 const GROUPS = {
   flame: {
-    title: "Light Presets: Flame",
-    description: "Fire-lit sources \u2014 candles, torches, hearths, and lava.",
     icon: "fa-solid fa-fire"
   },
   atmosphere: {
-    title: "Light Presets: Atmosphere",
-    description: "Mostly dim-only sources that colour a space rather than light it.",
     icon: "fa-solid fa-cloud-moon"
   },
   magic: {
-    title: "Light Presets: Magic",
-    description: "Arcane and divine light, plus the magical darkness source.",
     icon: "fa-solid fa-wand-magic-sparkles"
   }
 };
@@ -65,8 +64,6 @@ const GROUPS = {
 const PRESETS = {
   presetCandle: {
     group: "flame",
-    title: "Preset: Candle",
-    description: "A small, warm flame with a quick low flicker that fades out close to the source. Suits bedside tables, shrines, and clusters of candles — place one light for a whole candelabra.",
     icon: "fa-solid fa-candle-holder",
     config: {
       color: "#d78b3d",
@@ -77,8 +74,6 @@ const PRESETS = {
   },
   presetTorch: {
     group: "flame",
-    title: "Preset: Torch",
-    description: "The classic wall-sconce or handheld torch: strong warm light with a lively flicker.",
     icon: "fa-solid fa-fire-flame-curved",
     config: {
       color: "#e69a50",
@@ -88,8 +83,6 @@ const PRESETS = {
   },
   presetLantern: {
     group: "flame",
-    title: "Preset: Lantern",
-    description: "Warm, steady glow with only a gentle flicker — a hooded lantern by a door, or hung outside an inn.",
     icon: "fa-solid fa-lamp",
     config: {
       color: "#f0b46a",
@@ -99,8 +92,6 @@ const PRESETS = {
   },
   presetBullseye: {
     group: "flame",
-    title: "Preset: Bullseye Lantern (cone)",
-    description: "A shuttered lantern that throws a focused 60° beam. Dragging draws the cone; scroll while dragging to aim it.",
     icon: "fa-solid fa-flashlight",
     config: {
       color: "#f0b46a",
@@ -111,8 +102,6 @@ const PRESETS = {
   },
   presetCampfire: {
     group: "flame",
-    title: "Preset: Campfire",
-    description: "A larger, heavier flame animation with deep orange tones. Campfires, braziers, and open cooking fires.",
     icon: "fa-solid fa-campfire",
     config: {
       color: "#e2723f",
@@ -123,8 +112,6 @@ const PRESETS = {
   presetChimney: {
     group: "flame",
     brightRatio: 0.25,
-    title: "Preset: Chimney (cone)",
-    description: "A fire set into a wall: a 180° spill that lights the room and nothing behind it, deeper and calmer than an open flame. The cone is built in rather than left to wall occlusion, because the light sits inside the wall footprint where walls would clip it. Dragging draws the cone; scroll while dragging to aim it into the room.",
     icon: "fa-solid fa-fireplace",
     config: {
       color: "#d8663a",
@@ -136,8 +123,6 @@ const PRESETS = {
   presetMagical: {
     group: "magic",
     brightRatio: 0.25,
-    title: "Preset: Magical Glow",
-    description: "A soft violet pulse for enchanted crystals, runes, and ambient arcane light.",
     icon: "fa-solid fa-sparkles",
     config: {
       color: "#8f7fe8",
@@ -148,8 +133,6 @@ const PRESETS = {
   presetMoonlight: {
     group: "atmosphere",
     brightRatio: 0,
-    title: "Preset: Moonlight",
-    description: "Pale, steady blue-white light with no animation. Windows at night, moonlit clearings, and skylights.",
     icon: "fa-solid fa-moon",
     config: {
       color: "#8fb4d9",
@@ -161,8 +144,6 @@ const PRESETS = {
   presetFog: {
     group: "atmosphere",
     brightRatio: 0,
-    title: "Preset: Fog Bank",
-    description: "Grey swirling fog rather than a lamp — low luminosity so it reads as atmosphere. Marshes, graveyards, and sewer haze. The swirl shows from moderate scene darkness up; in full daylight it's only a pale haze.",
     icon: "fa-solid fa-fog",
     config: {
       color: "#c0c0c0",
@@ -175,8 +156,6 @@ const PRESETS = {
   presetFey: {
     group: "atmosphere",
     brightRatio: 0,
-    title: "Preset: Fey Lights",
-    description: "Soft pink shimmer using the fairy animation. Feywild groves, pixie swarms, and enchanted gardens.",
     icon: "fa-solid fa-butterfly",
     config: {
       color: "#d98ae8",
@@ -188,8 +167,6 @@ const PRESETS = {
   presetGhostly: {
     group: "atmosphere",
     brightRatio: 0,
-    title: "Preset: Ghostly",
-    description: "Sickly green ghost-light flicker. Haunted halls, spectral apparitions, and cursed shrines.",
     icon: "fa-solid fa-ghost",
     config: {
       color: "#59b389",
@@ -200,8 +177,6 @@ const PRESETS = {
   },
   presetLava: {
     group: "flame",
-    title: "Preset: Lava Glow",
-    description: "Deep red-orange glow with a slow, heavy flame roil. Lava pools, forge hearts, and embers.",
     icon: "fa-solid fa-volcano",
     config: {
       color: "#d9541e",
@@ -214,8 +189,6 @@ const PRESETS = {
   presetDivine: {
     group: "magic",
     brightRatio: 0.25,
-    title: "Preset: Divine Radiance",
-    description: "Warm golden sunburst pulse. Altars, holy auras, and consecrated ground.",
     icon: "fa-solid fa-sun-bright",
     config: {
       color: "#f5dea0",
@@ -225,8 +198,6 @@ const PRESETS = {
   },
   presetDarkness: {
     group: "magic",
-    title: "Preset: Magical Darkness (darkness source)",
-    description: "A darkness source, not a light: it carves an area of magical gloom out of existing illumination. Use for darkness spells and cursed zones.",
     icon: "fa-solid fa-eclipse",
     config: {
       negative: true,
@@ -248,28 +219,28 @@ function onClickPreset(event) {
 
 /** Describe how the bright core relates to the dragged dim radius. */
 function describeBrightRatio(ratio) {
-  if ( ratio === 0 ) return "dim only — no bright core; your drag sets the dim radius";
-  if ( ratio === 0.5 ) return "set by your drag distance; bright is half the dim radius";
-  return `set by your drag distance; bright is ${Math.round(ratio * 100)}% of the dim radius`;
+  if ( ratio === 0 ) return t("Toolclip.RadiusDimOnly");
+  if ( ratio === 0.5 ) return t("Toolclip.RadiusHalf");
+  return t("Toolclip.RadiusPercent", { percent: Math.round(ratio * 100) });
 }
 
 /** Build toolclip spec lines from the preset's full light config. */
 function describeConfig(config, brightRatio) {
   const items = [];
   const anim = config.animation;
-  if ( config.negative ) items.push({ heading: "Type", content: "Darkness source (removes light)" });
-  if ( config.color ) items.push({ heading: "Color", content: config.color });
+  if ( config.negative ) items.push({ heading: t("Toolclip.Type"), content: t("Toolclip.TypeDarkness") });
+  if ( config.color ) items.push({ heading: t("Toolclip.Color"), content: config.color });
   const animConfig = CONFIG.Canvas.lightAnimations[anim.type] ?? CONFIG.Canvas.darknessAnimations[anim.type];
   items.push({
-    heading: "Animation",
+    heading: t("Toolclip.Animation"),
     content: animConfig
-      ? `${game.i18n.localize(animConfig.label)} — speed ${anim.speed}, intensity ${anim.intensity}`
-      : "None (steady light)"
+      ? t("Toolclip.AnimationValue", { label: game.i18n.localize(animConfig.label), speed: anim.speed, intensity: anim.intensity })
+      : t("Toolclip.AnimationNone")
   });
-  if ( config.angle < 360 ) items.push({ heading: "Emission angle", content: `${config.angle}° cone` });
-  items.push({ heading: "Intensity", content: `alpha ${config.alpha}, luminosity ${config.luminosity}` });
-  items.push({ heading: "Attenuation", content: `${config.attenuation} (higher = softer edge)` });
-  items.push({ heading: "Dim/bright radius", content: describeBrightRatio(brightRatio) });
+  if ( config.angle < 360 ) items.push({ heading: t("Toolclip.Angle"), content: t("Toolclip.AngleValue", { angle: config.angle }) });
+  items.push({ heading: t("Toolclip.Intensity"), content: t("Toolclip.IntensityValue", { alpha: config.alpha, luminosity: config.luminosity }) });
+  items.push({ heading: t("Toolclip.Attenuation"), content: t("Toolclip.AttenuationValue", { attenuation: config.attenuation }) });
+  items.push({ heading: t("Toolclip.Radius"), content: describeBrightRatio(brightRatio) });
   return items;
 }
 
@@ -278,8 +249,8 @@ function describeConfig(config, brightRatio) {
  * Populated at init from PRESETS, and holds all fourteen regardless of which
  * group is open: the drag-preview patch has to find the active preset's bright
  * ratio even when that preset's group is collapsed and it has no button.
- * @type {Map<string, {name: string, title: string, description: string, icon: string,
- *                     group: string, config: object, createData: object, brightRatio: number}>}
+ * @type {Map<string, {name: string, icon: string, group: string, config: object,
+ *                     createData: object, brightRatio: number}>}
  */
 const REGISTERED = new Map();
 
@@ -295,9 +266,9 @@ function groupMembers(group) {
   return [...REGISTERED.values()].filter(p => p.group === group);
 }
 
-/** A preset's display name, without the "Preset: " prefix its tool title carries. */
+/** A preset's localized display name. */
 function presetLabel(preset) {
-  return preset.title.replace(/^Preset: /, "");
+  return t(`Preset.${preset.name}.Name`);
 }
 
 /** The bright ratio of the currently active preset, or null if the palette doesn't match any preset. */
@@ -311,20 +282,21 @@ function activeBrightRatio() {
 
 /** A toolbar entry for one preset: click it, then drag on the canvas. */
 function presetTool(preset, order) {
+  const title = t("PresetTitle", { name: presetLabel(preset) });
   return {
     name: preset.name,
     order,
-    title: preset.title,
+    title,
     icon: preset.icon,
     button: true,
     createData: preset.createData,
     onChange: onClickPreset,
     toolclip: {
-      heading: preset.title,
+      heading: title,
       items: [
-        { paragraph: preset.description },
+        { paragraph: t(`Preset.${preset.name}.Description`) },
         ...describeConfig(preset.config, preset.brightRatio),
-        { paragraph: "Click to make this the default for new lights, then drag on the canvas to place one." }
+        { paragraph: t("Toolclip.PresetHint") }
       ]
     }
   };
@@ -332,7 +304,8 @@ function presetTool(preset, order) {
 
 /** A toolbar entry that drills in to one group's presets. */
 function groupTool(key, order) {
-  const { title, description, icon } = GROUPS[key];
+  const { icon } = GROUPS[key];
+  const title = t("GroupTitle", { name: t(`Group.${key}.Name`) });
   const members = groupMembers(key);
   return {
     name: `${GROUP_TOOL_PREFIX}${key}`,
@@ -354,9 +327,9 @@ function groupTool(key, order) {
     toolclip: {
       heading: title,
       items: [
-        { paragraph: description },
-        { heading: "Presets", content: members.map(presetLabel).join(", ") },
-        { paragraph: "Click to open this group. The pip marks the group holding your active preset." }
+        { paragraph: t(`Group.${key}.Description`) },
+        { heading: t("Toolclip.GroupPresets"), content: game.i18n.getListFormatter({ type: "unit" }).format(members.map(presetLabel)) },
+        { paragraph: t("Toolclip.GroupHint") }
       ]
     }
   };
@@ -367,13 +340,16 @@ function backTool(order) {
   return {
     name: BACK_TOOL,
     order,
-    title: "Back to Preset Groups",
+    title: t("Back.Title"),
     icon: "fa-solid fa-chevron-left",
     button: true,
     onChange: () => showGroup(null),
     toolclip: {
-      heading: "Back to Preset Groups",
-      items: [{ paragraph: "Collapse this group and return to the Flame, Atmosphere, and Magic buttons." }]
+      heading: t("Back.Title"),
+      items: [{ paragraph: t("Back.Hint", {
+        groups: game.i18n.getListFormatter().format(
+          Object.keys(GROUPS).filter(key => groupMembers(key).length).map(key => t(`Group.${key}.Name`)))
+      }) }]
     }
   };
 }
@@ -440,13 +416,13 @@ Hooks.on("preCreateAmbientLight", document => {
  * palette no longer matches any preset the core behavior is untouched.
  */
 Hooks.once("init", () => {
-  for ( const [name, { title, description, icon, group, config, brightRatio = 0.5 }] of Object.entries(PRESETS) ) {
+  for ( const [name, { icon, group, config, brightRatio = 0.5 }] of Object.entries(PRESETS) ) {
     if ( !(group in GROUPS) ) {
       console.warn(`Light Presets | preset "${name}" names unknown group "${group}" and will not be shown.`);
     }
     const fullConfig = lightConfig(config);
     REGISTERED.set(name, {
-      name, title, description, icon, group,
+      name, icon, group,
       config: fullConfig,
       createData: { walls: true, vision: false, hidden: false, config: fullConfig },
       brightRatio

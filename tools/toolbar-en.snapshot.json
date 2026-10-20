@@ -1,0 +1,601 @@
+{
+  "top": [
+    {
+      "name": "lightPresetGroup_flame",
+      "title": "Light Presets: Flame",
+      "toolclip": {
+        "heading": "Light Presets: Flame",
+        "items": [
+          {
+            "paragraph": "Fire-lit sources — candles, torches, hearths, and lava."
+          },
+          {
+            "heading": "Presets",
+            "content": "Candle, Torch, Lantern, Bullseye Lantern (cone), Campfire, Chimney (cone), Lava Glow"
+          },
+          {
+            "paragraph": "Click to open this group. The pip marks the group holding your active preset."
+          }
+        ]
+      }
+    },
+    {
+      "name": "lightPresetGroup_atmosphere",
+      "title": "Light Presets: Atmosphere",
+      "toolclip": {
+        "heading": "Light Presets: Atmosphere",
+        "items": [
+          {
+            "paragraph": "Mostly dim-only sources that colour a space rather than light it."
+          },
+          {
+            "heading": "Presets",
+            "content": "Moonlight, Fog Bank, Fey Lights, Ghostly"
+          },
+          {
+            "paragraph": "Click to open this group. The pip marks the group holding your active preset."
+          }
+        ]
+      }
+    },
+    {
+      "name": "lightPresetGroup_magic",
+      "title": "Light Presets: Magic",
+      "toolclip": {
+        "heading": "Light Presets: Magic",
+        "items": [
+          {
+            "paragraph": "Arcane and divine light, plus the magical darkness source."
+          },
+          {
+            "heading": "Presets",
+            "content": "Magical Glow, Divine Radiance, Magical Darkness (darkness source)"
+          },
+          {
+            "paragraph": "Click to open this group. The pip marks the group holding your active preset."
+          }
+        ]
+      }
+    }
+  ],
+  "lightPresetGroup_flame": [
+    {
+      "name": "lightPresetBack",
+      "title": "Back to Preset Groups",
+      "toolclip": {
+        "heading": "Back to Preset Groups",
+        "items": [
+          {
+            "paragraph": "Collapse this group and return to the Flame, Atmosphere, and Magic buttons."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetCandle",
+      "title": "Preset: Candle",
+      "toolclip": {
+        "heading": "Preset: Candle",
+        "items": [
+          {
+            "paragraph": "A small, warm flame with a quick low flicker that fades out close to the source. Suits bedside tables, shrines, and clusters of candles — place one light for a whole candelabra."
+          },
+          {
+            "heading": "Color",
+            "content": "#d78b3d"
+          },
+          {
+            "heading": "Animation",
+            "content": "torch — speed 4, intensity 3"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.4, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.75 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetTorch",
+      "title": "Preset: Torch",
+      "toolclip": {
+        "heading": "Preset: Torch",
+        "items": [
+          {
+            "paragraph": "The classic wall-sconce or handheld torch: strong warm light with a lively flicker."
+          },
+          {
+            "heading": "Color",
+            "content": "#e69a50"
+          },
+          {
+            "heading": "Animation",
+            "content": "torch — speed 5, intensity 5"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.6 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetLantern",
+      "title": "Preset: Lantern",
+      "toolclip": {
+        "heading": "Preset: Lantern",
+        "items": [
+          {
+            "paragraph": "Warm, steady glow with only a gentle flicker — a hooded lantern by a door, or hung outside an inn."
+          },
+          {
+            "heading": "Color",
+            "content": "#f0b46a"
+          },
+          {
+            "heading": "Animation",
+            "content": "torch — speed 2, intensity 2"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.45 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetBullseye",
+      "title": "Preset: Bullseye Lantern (cone)",
+      "toolclip": {
+        "heading": "Preset: Bullseye Lantern (cone)",
+        "items": [
+          {
+            "paragraph": "A shuttered lantern that throws a focused 60° beam. Dragging draws the cone; scroll while dragging to aim it."
+          },
+          {
+            "heading": "Color",
+            "content": "#f0b46a"
+          },
+          {
+            "heading": "Animation",
+            "content": "torch — speed 2, intensity 2"
+          },
+          {
+            "heading": "Emission angle",
+            "content": "60° cone"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.4 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetCampfire",
+      "title": "Preset: Campfire",
+      "toolclip": {
+        "heading": "Preset: Campfire",
+        "items": [
+          {
+            "paragraph": "A larger, heavier flame animation with deep orange tones. Campfires, braziers, and open cooking fires."
+          },
+          {
+            "heading": "Color",
+            "content": "#e2723f"
+          },
+          {
+            "heading": "Animation",
+            "content": "flame — speed 4, intensity 6"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.55 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetChimney",
+      "title": "Preset: Chimney (cone)",
+      "toolclip": {
+        "heading": "Preset: Chimney (cone)",
+        "items": [
+          {
+            "paragraph": "A fire set into a wall: a 180° spill that lights the room and nothing behind it, deeper and calmer than an open flame. The cone is built in rather than left to wall occlusion, because the light sits inside the wall footprint where walls would clip it. Dragging draws the cone; scroll while dragging to aim it into the room."
+          },
+          {
+            "heading": "Color",
+            "content": "#d8663a"
+          },
+          {
+            "heading": "Animation",
+            "content": "flame — speed 3, intensity 4"
+          },
+          {
+            "heading": "Emission angle",
+            "content": "180° cone"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.65 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is 25% of the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetLava",
+      "title": "Preset: Lava Glow",
+      "toolclip": {
+        "heading": "Preset: Lava Glow",
+        "items": [
+          {
+            "paragraph": "Deep red-orange glow with a slow, heavy flame roil. Lava pools, forge hearts, and embers."
+          },
+          {
+            "heading": "Color",
+            "content": "#d9541e"
+          },
+          {
+            "heading": "Animation",
+            "content": "flame — speed 2, intensity 7"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.55, luminosity 0.6"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.4 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    }
+  ],
+  "lightPresetGroup_atmosphere": [
+    {
+      "name": "lightPresetBack",
+      "title": "Back to Preset Groups",
+      "toolclip": {
+        "heading": "Back to Preset Groups",
+        "items": [
+          {
+            "paragraph": "Collapse this group and return to the Flame, Atmosphere, and Magic buttons."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetMoonlight",
+      "title": "Preset: Moonlight",
+      "toolclip": {
+        "heading": "Preset: Moonlight",
+        "items": [
+          {
+            "paragraph": "Pale, steady blue-white light with no animation. Windows at night, moonlit clearings, and skylights."
+          },
+          {
+            "heading": "Color",
+            "content": "#8fb4d9"
+          },
+          {
+            "heading": "Animation",
+            "content": "None (steady light)"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.35, luminosity 0.4"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.65 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "dim only — no bright core; your drag sets the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetFog",
+      "title": "Preset: Fog Bank",
+      "toolclip": {
+        "heading": "Preset: Fog Bank",
+        "items": [
+          {
+            "paragraph": "Grey swirling fog rather than a lamp — low luminosity so it reads as atmosphere. Marshes, graveyards, and sewer haze. The swirl shows from moderate scene darkness up; in full daylight it's only a pale haze."
+          },
+          {
+            "heading": "Color",
+            "content": "#c0c0c0"
+          },
+          {
+            "heading": "Animation",
+            "content": "fog — speed 1, intensity 5"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.45, luminosity 0.35"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.7 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "dim only — no bright core; your drag sets the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetFey",
+      "title": "Preset: Fey Lights",
+      "toolclip": {
+        "heading": "Preset: Fey Lights",
+        "items": [
+          {
+            "paragraph": "Soft pink shimmer using the fairy animation. Feywild groves, pixie swarms, and enchanted gardens."
+          },
+          {
+            "heading": "Color",
+            "content": "#d98ae8"
+          },
+          {
+            "heading": "Animation",
+            "content": "fairy — speed 3, intensity 4"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.45, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.55 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "dim only — no bright core; your drag sets the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetGhostly",
+      "title": "Preset: Ghostly",
+      "toolclip": {
+        "heading": "Preset: Ghostly",
+        "items": [
+          {
+            "paragraph": "Sickly green ghost-light flicker. Haunted halls, spectral apparitions, and cursed shrines."
+          },
+          {
+            "heading": "Color",
+            "content": "#59b389"
+          },
+          {
+            "heading": "Animation",
+            "content": "ghost — speed 3, intensity 4"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.4, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.7 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "dim only — no bright core; your drag sets the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    }
+  ],
+  "lightPresetGroup_magic": [
+    {
+      "name": "lightPresetBack",
+      "title": "Back to Preset Groups",
+      "toolclip": {
+        "heading": "Back to Preset Groups",
+        "items": [
+          {
+            "paragraph": "Collapse this group and return to the Flame, Atmosphere, and Magic buttons."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetMagical",
+      "title": "Preset: Magical Glow",
+      "toolclip": {
+        "heading": "Preset: Magical Glow",
+        "items": [
+          {
+            "paragraph": "A soft violet pulse for enchanted crystals, runes, and ambient arcane light."
+          },
+          {
+            "heading": "Color",
+            "content": "#8f7fe8"
+          },
+          {
+            "heading": "Animation",
+            "content": "pulse — speed 3, intensity 4"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.4 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is 25% of the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetDivine",
+      "title": "Preset: Divine Radiance",
+      "toolclip": {
+        "heading": "Preset: Divine Radiance",
+        "items": [
+          {
+            "paragraph": "Warm golden sunburst pulse. Altars, holy auras, and consecrated ground."
+          },
+          {
+            "heading": "Color",
+            "content": "#f5dea0"
+          },
+          {
+            "heading": "Animation",
+            "content": "sunburst — speed 2, intensity 4"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.5 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is 25% of the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetDarkness",
+      "title": "Preset: Magical Darkness (darkness source)",
+      "toolclip": {
+        "heading": "Preset: Magical Darkness (darkness source)",
+        "items": [
+          {
+            "paragraph": "A darkness source, not a light: it carves an area of magical gloom out of existing illumination. Use for darkness spells and cursed zones."
+          },
+          {
+            "heading": "Type",
+            "content": "Darkness source (removes light)"
+          },
+          {
+            "heading": "Animation",
+            "content": "magicalGloom — speed 3, intensity 4"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.5 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    }
+  ]
+}

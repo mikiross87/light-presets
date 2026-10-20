@@ -1,0 +1,103 @@
+{
+  "LIGHTPRESETS": {
+    "GroupTitle": "Light Presets: {name}",
+    "PresetTitle": "Preset: {name}",
+    "Group": {
+      "flame": {
+        "Name": "Flame",
+        "Description": "Fire-lit sources — candles, torches, hearths, and lava."
+      },
+      "atmosphere": {
+        "Name": "Atmosphere",
+        "Description": "Mostly dim-only sources that colour a space rather than light it."
+      },
+      "magic": {
+        "Name": "Magic",
+        "Description": "Arcane and divine light, plus the magical darkness source."
+      }
+    },
+    "Preset": {
+      "presetCandle": {
+        "Name": "Candle",
+        "Description": "A small, warm flame with a quick low flicker that fades out close to the source. Suits bedside tables, shrines, and clusters of candles — place one light for a whole candelabra."
+      },
+      "presetTorch": {
+        "Name": "Torch",
+        "Description": "The classic wall-sconce or handheld torch: strong warm light with a lively flicker."
+      },
+      "presetLantern": {
+        "Name": "Lantern",
+        "Description": "Warm, steady glow with only a gentle flicker — a hooded lantern by a door, or hung outside an inn."
+      },
+      "presetBullseye": {
+        "Name": "Bullseye Lantern (cone)",
+        "Description": "A shuttered lantern that throws a focused 60° beam. Dragging draws the cone; scroll while dragging to aim it."
+      },
+      "presetCampfire": {
+        "Name": "Campfire",
+        "Description": "A larger, heavier flame animation with deep orange tones. Campfires, braziers, and open cooking fires."
+      },
+      "presetChimney": {
+        "Name": "Chimney (cone)",
+        "Description": "A fire set into a wall: a 180° spill that lights the room and nothing behind it, deeper and calmer than an open flame. The cone is built in rather than left to wall occlusion, because the light sits inside the wall footprint where walls would clip it. Dragging draws the cone; scroll while dragging to aim it into the room."
+      },
+      "presetMagical": {
+        "Name": "Magical Glow",
+        "Description": "A soft violet pulse for enchanted crystals, runes, and ambient arcane light."
+      },
+      "presetMoonlight": {
+        "Name": "Moonlight",
+        "Description": "Pale, steady blue-white light with no animation. Windows at night, moonlit clearings, and skylights."
+      },
+      "presetFog": {
+        "Name": "Fog Bank",
+        "Description": "Grey swirling fog rather than a lamp — low luminosity so it reads as atmosphere. Marshes, graveyards, and sewer haze. The swirl shows from moderate scene darkness up; in full daylight it's only a pale haze."
+      },
+      "presetFey": {
+        "Name": "Fey Lights",
+        "Description": "Soft pink shimmer using the fairy animation. Feywild groves, pixie swarms, and enchanted gardens."
+      },
+      "presetGhostly": {
+        "Name": "Ghostly",
+        "Description": "Sickly green ghost-light flicker. Haunted halls, spectral apparitions, and cursed shrines."
+      },
+      "presetLava": {
+        "Name": "Lava Glow",
+        "Description": "Deep red-orange glow with a slow, heavy flame roil. Lava pools, forge hearts, and embers."
+      },
+      "presetDivine": {
+        "Name": "Divine Radiance",
+        "Description": "Warm golden sunburst pulse. Altars, holy auras, and consecrated ground."
+      },
+      "presetDarkness": {
+        "Name": "Magical Darkness (darkness source)",
+        "Description": "A darkness source, not a light: it carves an area of magical gloom out of existing illumination. Use for darkness spells and cursed zones."
+      }
+    },
+    "Back": {
+      "Title": "Back to Preset Groups",
+      "Hint": "Collapse this group and return to the {groups} buttons."
+    },
+    "Toolclip": {
+      "Type": "Type",
+      "TypeDarkness": "Darkness source (removes light)",
+      "Color": "Color",
+      "Animation": "Animation",
+      "AnimationValue": "{label} — speed {speed}, intensity {intensity}",
+      "AnimationNone": "None (steady light)",
+      "Angle": "Emission angle",
+      "AngleValue": "{angle}° cone",
+      "Intensity": "Intensity",
+      "IntensityValue": "alpha {alpha}, luminosity {luminosity}",
+      "Attenuation": "Attenuation",
+      "AttenuationValue": "{attenuation} (higher = softer edge)",
+      "Radius": "Dim/bright radius",
+      "RadiusDimOnly": "dim only — no bright core; your drag sets the dim radius",
+      "RadiusHalf": "set by your drag distance; bright is half the dim radius",
+      "RadiusPercent": "set by your drag distance; bright is {percent}% of the dim radius",
+      "PresetHint": "Click to make this the default for new lights, then drag on the canvas to place one.",
+      "GroupPresets": "Presets",
+      "GroupHint": "Click to open this group. The pip marks the group holding your active preset."
+    }
+  }
+}
