@@ -162,14 +162,14 @@ const PRESETS = {
     group: "atmosphere",
     brightRatio: 0,
     title: "Preset: Fog Bank",
-    description: "Grey swirling fog rather than a lamp — low luminosity so it reads as atmosphere. Marshes, graveyards, and sewer haze.",
+    description: "Grey swirling fog rather than a lamp — low luminosity so it reads as atmosphere. Marshes, graveyards, and sewer haze. The swirl shows from moderate scene darkness up; in full daylight it's only a pale haze.",
     icon: "fa-solid fa-fog",
     config: {
       color: "#c0c0c0",
       alpha: 0.45,
       luminosity: 0.35,
       attenuation: 0.7,
-      animation: { type: "fog", speed: 1, intensity: 2 }
+      animation: { type: "fog", speed: 1, intensity: 5 }
     }
   },
   presetFey: {

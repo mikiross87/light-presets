@@ -18,6 +18,11 @@ a GM would never notice (CI, tooling, docs) needs no entry.
   `flags["light-presets"].preset` (for example `presetTorch`), so macros and
   tools like Mass Edit can find and update every light of a preset (#58).
 
+### Changed
+
+- **Fog Bank** swirls visibly from moderate scene darkness instead of barely
+  registering; its tooltip now says it needs some darkness to read (#57).
+
 ## [1.2.1] - 2026-10-14
 
 ### Fixed
