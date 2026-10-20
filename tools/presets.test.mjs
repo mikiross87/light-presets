@@ -81,13 +81,18 @@ test("every preset's animation is one V14 defines for its kind of source", async
 
 test("every placed light matching a preset records it in its flags", async () => {
   const { presets, hooks } = await loadPresetTools();
-  const torch = presets.find(p => p.name === "presetTorch");
   const createLight = source => {
     const updates = [];
     hooks.preCreateAmbientLight({ _source: source, updateSource: u => updates.push(u) });
     return updates;
   };
 
+  // Each preset must be recognised as itself, which also fails if two presets share createData.
+  for ( const { name, createData } of presets ) {
+    assert.deepEqual(createLight(structuredClone(createData)), [{ "flags.light-presets.preset": name }], name);
+  }
+
+  const torch = presets.find(p => p.name === "presetTorch");
   const placed = structuredClone(torch.createData);
   placed.config = { ...placed.config, dim: 40, bright: 20 };
   assert.deepEqual(createLight({ x: 100, y: 100, ...placed }), [{ "flags.light-presets.preset": "presetTorch" }]);
