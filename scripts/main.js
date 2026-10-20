@@ -4,7 +4,8 @@
  * implements wall type presets (see WallPalette.onClickPreset). Clicking a
  * preset stores its data in the core "ambientLightPalette" client setting, so
  * every subsequently drawn ambient light uses it. The active preset shows a
- * pip on its button, exactly like the core wall presets.
+ * pip on its button, exactly like the core wall presets. Each light placed with
+ * a preset records it in flags["light-presets"].preset.
  *
  * Fourteen presets would be fourteen rows in a toolbar column that already
  * holds the core lighting tools, so they are collapsed into three groups
@@ -413,6 +414,21 @@ function showGroup(key) {
 
 Hooks.on("getSceneControlButtons", controls => {
   if ( controls.lighting ) buildPresetTools(controls.lighting);
+});
+
+/**
+ * Record which preset a new light was made with, so macros and tools like Mass
+ * Edit can find every light of a preset. Core can't carry this through the
+ * palette: the palette setting's schema strips flags. Matching the document
+ * itself, rather than the palette, also tags pasted or scripted lights only
+ * when they really are that preset.
+ */
+Hooks.on("preCreateAmbientLight", document => {
+  for ( const { name, createData } of REGISTERED.values() ) {
+    if ( !foundry.utils.isEmpty(foundry.utils.diffObject(document._source, createData)) ) continue;
+    document.updateSource({ "flags.light-presets.preset": name });
+    return;
+  }
 });
 
 /**

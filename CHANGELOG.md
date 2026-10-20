@@ -12,6 +12,12 @@ a GM would never notice (CI, tooling, docs) needs no entry.
 
 ## [Unreleased]
 
+### Added
+
+- Lights placed with a preset now remember which one, in
+  `flags["light-presets"].preset` (for example `presetTorch`), so macros and
+  tools like Mass Edit can find and update every light of a preset (#58).
+
 ## [1.2.1] - 2026-10-14
 
 ### Fixed
