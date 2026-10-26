@@ -506,7 +506,7 @@ class PresetVisibilityConfig extends foundry.applications.api.ApplicationV2 {
   static DEFAULT_OPTIONS = {
     id: "light-presets-visibility",
     tag: "form",
-    window: { title: "LIGHTPRESETS.Visibility.Name", icon: "fa-solid fa-eye-slash" },
+    window: { title: "LIGHTPRESETS.Visibility.Name", icon: "fa-solid fa-eye-slash", contentClasses: ["standard-form"] },
     position: { width: 420 },
     form: { handler: PresetVisibilityConfig.#onSubmit, closeOnSubmit: true }
   };
@@ -528,7 +528,7 @@ class PresetVisibilityConfig extends foundry.applications.api.ApplicationV2 {
           ${rows}
         </fieldset>`;
     }).join("");
-    return `${fieldsets}
+    return `<div class="standard-form scrollable">${fieldsets}</div>
       <footer class="form-footer">
         <button type="submit"><i class="fa-solid fa-floppy-disk" inert></i> ${game.i18n.localize("SETTINGS.Save")}</button>
       </footer>`;
