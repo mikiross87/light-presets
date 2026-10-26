@@ -91,7 +91,7 @@ async function loadPresetTools() {
 
 test("every preset's animation is one V14 defines for its kind of source", async () => {
   const { presets } = await loadPresetTools();
-  assert.equal(presets.length, 14);
+  assert.equal(presets.length, 21);
   for ( const { title, createData: { config } } of presets ) {
     const { type } = config.animation;
     if ( type === null ) continue;
@@ -162,4 +162,18 @@ test("cone presets say they aim by drag direction, never by scrolling during the
     assert.ok(!/scroll while dragging/i.test(text), `${title} still says to scroll while dragging`);
     assert.ok(toolclip.items.some(i => i.heading === "Aim"), `${title} has no Aim line`);
   }
+});
+
+test("the presets added for #51 exist with their animations", async () => {
+  const { presets } = await loadPresetTools();
+  const expected = {
+    presetStarlight: "starlight", presetBioluminescence: "pulse", presetUnderwater: "wave",
+    presetArcaneWard: "hexa", presetPortal: "vortex", presetStorm: "energy", presetSmoke: "denseSmoke"
+  };
+  for ( const [name, type] of Object.entries(expected) ) {
+    const preset = presets.find(p => p.name === name);
+    assert.ok(preset, `${name} is missing`);
+    assert.equal(preset.createData.config.animation.type, type, name);
+  }
+  assert.equal(presets.find(p => p.name === "presetSmoke").createData.config.negative, true);
 });

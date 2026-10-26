@@ -7,7 +7,7 @@
  * pip on its button, exactly like the core wall presets. Each light placed with
  * a preset records it in flags["light-presets"].preset.
  *
- * Fourteen presets would be fourteen rows in a toolbar column that already
+ * A row per preset would be too many rows in a toolbar column that already
  * holds the core lighting tools, so they are collapsed into three groups
  * (GROUPS below). The toolbar shows one button per group; clicking one drills
  * in to its presets plus a back button. A group button carries the pip when
@@ -175,6 +175,40 @@ const PRESETS = {
       animation: { type: "ghost", speed: 3, intensity: 4 }
     }
   },
+  presetStarlight: {
+    group: "atmosphere",
+    brightRatio: 0,
+    icon: "fa-solid fa-stars",
+    config: {
+      color: "#b8c8f0",
+      alpha: 0.3,
+      luminosity: 0.35,
+      attenuation: 0.7,
+      animation: { type: "starlight", speed: 2, intensity: 4 }
+    }
+  },
+  presetBioluminescence: {
+    group: "atmosphere",
+    brightRatio: 0,
+    icon: "fa-solid fa-mushroom",
+    config: {
+      color: "#3fd6b0",
+      alpha: 0.45,
+      attenuation: 0.6,
+      animation: { type: "pulse", speed: 2, intensity: 3 }
+    }
+  },
+  presetUnderwater: {
+    group: "atmosphere",
+    brightRatio: 0.25,
+    icon: "fa-solid fa-water",
+    config: {
+      color: "#3a8fb7",
+      alpha: 0.5,
+      attenuation: 0.5,
+      animation: { type: "wave", speed: 1, intensity: 2 }
+    }
+  },
   presetLava: {
     group: "flame",
     icon: "fa-solid fa-volcano",
@@ -196,12 +230,50 @@ const PRESETS = {
       animation: { type: "sunburst", speed: 2, intensity: 4 }
     }
   },
+  presetArcaneWard: {
+    group: "magic",
+    brightRatio: 0.25,
+    icon: "fa-solid fa-shield-halved",
+    config: {
+      color: "#6fa8ff",
+      attenuation: 0.4,
+      animation: { type: "hexa", speed: 2, intensity: 4 }
+    }
+  },
+  presetPortal: {
+    group: "magic",
+    brightRatio: 0.25,
+    icon: "fa-solid fa-hurricane",
+    config: {
+      color: "#a05ce8",
+      attenuation: 0.45,
+      animation: { type: "vortex", speed: 3, intensity: 5 }
+    }
+  },
+  presetStorm: {
+    group: "magic",
+    icon: "fa-solid fa-bolt-lightning",
+    config: {
+      color: "#7fc4ff",
+      attenuation: 0.35,
+      animation: { type: "energy", speed: 5, intensity: 6 }
+    }
+  },
   presetDarkness: {
     group: "magic",
     icon: "fa-solid fa-eclipse",
     config: {
       negative: true,
       animation: { type: "magicalGloom", speed: 3, intensity: 4 }
+    }
+  },
+  presetSmoke: {
+    group: "magic",
+    icon: "fa-solid fa-smoke",
+    config: {
+      negative: true,
+      color: "#5a5a5a",
+      animation: { type: "denseSmoke", speed: 2, intensity: 5 }
     }
   }
 };
@@ -249,7 +321,7 @@ function describeConfig(config, brightRatio) {
 
 /**
  * Every preset, resolved into the form the toolbar and the drag preview need.
- * Populated at init from PRESETS, and holds all fourteen regardless of which
+ * Populated at init from PRESETS, and holds every preset regardless of which
  * group is open: the drag-preview patch has to find the active preset's bright
  * ratio even when that preset's group is collapsed and it has no button.
  * @type {Map<string, {name: string, icon: string, group: string, config: object,

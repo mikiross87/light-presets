@@ -12,6 +12,12 @@ a GM would never notice (CI, tooling, docs) needs no entry.
 
 ## [Unreleased]
 
+### Added
+
+- Seven new presets. Atmosphere gets Starlight, Bioluminescence and Underwater,
+  and Magic gets Arcane Ward, Portal and Storm. Magic also gets Smoke Cloud, a
+  second darkness source that fills an area with grey smoke. (#51)
+
 ## [1.3.0] - 2026-10-20
 
 ### Added

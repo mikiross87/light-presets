@@ -30,7 +30,7 @@
           },
           {
             "heading": "Presets",
-            "content": "Moonlight, Fog Bank, Fey Lights, Ghostly"
+            "content": "Moonlight, Fog Bank, Fey Lights, Ghostly, Starlight, Bioluminescence, Underwater"
           },
           {
             "paragraph": "Click to open this group. The pip marks the group holding your active preset."
@@ -45,11 +45,11 @@
         "heading": "Light Presets: Magic",
         "items": [
           {
-            "paragraph": "Arcane and divine light, plus the magical darkness source."
+            "paragraph": "Arcane and divine light, plus two darkness sources."
           },
           {
             "heading": "Presets",
-            "content": "Magical Glow, Divine Radiance, Magical Darkness (darkness source)"
+            "content": "Magical Glow, Divine Radiance, Arcane Ward, Portal, Storm, Magical Darkness (darkness source), Smoke Cloud (darkness source)"
           },
           {
             "paragraph": "Click to open this group. The pip marks the group holding your active preset."
@@ -485,6 +485,111 @@
           }
         ]
       }
+    },
+    {
+      "name": "presetStarlight",
+      "title": "Preset: Starlight",
+      "toolclip": {
+        "heading": "Preset: Starlight",
+        "items": [
+          {
+            "paragraph": "A single cold star-glint with faint rays and no bright core. Where Moonlight holds steady, this one twinkles."
+          },
+          {
+            "heading": "Color",
+            "content": "#b8c8f0"
+          },
+          {
+            "heading": "Animation",
+            "content": "starlight — speed 2, intensity 4"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.3, luminosity 0.35"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.7 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "dim only — no bright core; your drag sets the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetBioluminescence",
+      "title": "Preset: Bioluminescence",
+      "toolclip": {
+        "heading": "Preset: Bioluminescence",
+        "items": [
+          {
+            "paragraph": "A slow cyan-green glow that swells and fades, with no bright core. Fungus groves and glowing moss in deep caves."
+          },
+          {
+            "heading": "Color",
+            "content": "#3fd6b0"
+          },
+          {
+            "heading": "Animation",
+            "content": "pulse — speed 2, intensity 3"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.45, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.6 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "dim only — no bright core; your drag sets the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetUnderwater",
+      "title": "Preset: Underwater",
+      "toolclip": {
+        "heading": "Preset: Underwater",
+        "items": [
+          {
+            "paragraph": "Sea-blue light in slow rings that ripple outward. Flooded rooms, sea caves, and sunken ruins."
+          },
+          {
+            "heading": "Color",
+            "content": "#3a8fb7"
+          },
+          {
+            "heading": "Animation",
+            "content": "wave — speed 1, intensity 2"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.5 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is 25% of the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
     }
   ],
   "lightPresetGroup_magic": [
@@ -571,6 +676,111 @@
       }
     },
     {
+      "name": "presetArcaneWard",
+      "title": "Preset: Arcane Ward",
+      "toolclip": {
+        "heading": "Preset: Arcane Ward",
+        "items": [
+          {
+            "paragraph": "Cool blue light with a hexagonal shield pattern, for protective circles and warded doors."
+          },
+          {
+            "heading": "Color",
+            "content": "#6fa8ff"
+          },
+          {
+            "heading": "Animation",
+            "content": "hexa — speed 2, intensity 4"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.4 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is 25% of the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetPortal",
+      "title": "Preset: Portal",
+      "toolclip": {
+        "heading": "Preset: Portal",
+        "items": [
+          {
+            "paragraph": "Violet light spiralling inward. Gates, rifts, and tears into other planes."
+          },
+          {
+            "heading": "Color",
+            "content": "#a05ce8"
+          },
+          {
+            "heading": "Animation",
+            "content": "vortex — speed 3, intensity 5"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.45 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is 25% of the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetStorm",
+      "title": "Preset: Storm",
+      "toolclip": {
+        "heading": "Preset: Storm",
+        "items": [
+          {
+            "paragraph": "Blue-white veins of crackling energy. Charged crystals and lightning traps."
+          },
+          {
+            "heading": "Color",
+            "content": "#7fc4ff"
+          },
+          {
+            "heading": "Animation",
+            "content": "energy — speed 5, intensity 6"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.35 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
       "name": "presetDarkness",
       "title": "Preset: Magical Darkness (darkness source)",
       "toolclip": {
@@ -586,6 +796,45 @@
           {
             "heading": "Animation",
             "content": "magicalGloom — speed 3, intensity 4"
+          },
+          {
+            "heading": "Intensity",
+            "content": "alpha 0.5, luminosity 0.5"
+          },
+          {
+            "heading": "Attenuation",
+            "content": "0.5 (higher = softer edge)"
+          },
+          {
+            "heading": "Dim/bright radius",
+            "content": "set by your drag distance; bright is half the dim radius"
+          },
+          {
+            "paragraph": "Click to make this the default for new lights, then drag on the canvas to place one."
+          }
+        ]
+      }
+    },
+    {
+      "name": "presetSmoke",
+      "title": "Preset: Smoke Cloud (darkness source)",
+      "toolclip": {
+        "heading": "Preset: Smoke Cloud (darkness source)",
+        "items": [
+          {
+            "paragraph": "A darkness source: a grey haze of thick smoke that dims everything inside it. Smoke bombs, burning buildings, or a vent pouring out fumes."
+          },
+          {
+            "heading": "Type",
+            "content": "Darkness source (removes light)"
+          },
+          {
+            "heading": "Color",
+            "content": "#5a5a5a"
+          },
+          {
+            "heading": "Animation",
+            "content": "denseSmoke — speed 2, intensity 5"
           },
           {
             "heading": "Intensity",
