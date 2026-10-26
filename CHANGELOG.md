@@ -12,6 +12,13 @@ a GM would never notice (CI, tooling, docs) needs no entry.
 
 ## [Unreleased]
 
+### Added
+
+- Seven new presets built on Foundry animations the module didn't use yet.
+  Atmosphere gets Starlight, Bioluminescence and Underwater. Magic gets Arcane
+  Ward, Portal, Storm, and Smoke Cloud, a second darkness source that fills an
+  area with thick smoke. (#51)
+
 ## [1.3.0] - 2026-10-20
 
 ### Added

@@ -10,7 +10,7 @@ Light presets for the Foundry VTT lighting toolbar — the same workflow the cor
 
 Pick a preset, then drag on the canvas: every light you draw uses that preset until you pick another. The active preset shows an indicator pip, exactly like the wall type buttons, and your choice persists across reloads.
 
-Fourteen presets would crowd a toolbar column that already holds the core lighting tools, so they sit behind three group buttons — **Flame**, **Atmosphere**, and **Magic**. Click a group to drill in to its presets; the back arrow at the top collapses it again. A closed group carries the pip when your active preset is one of its members, so you can always see where you are without opening anything.
+A row per preset would crowd a toolbar column that already holds the core lighting tools, so they sit behind three group buttons — **Flame**, **Atmosphere**, and **Magic**. Click a group to drill in to its presets; the back arrow at the top collapses it again. A closed group carries the pip when your active preset is one of its members, so you can always see where you are without opening anything.
 
 Requires **Foundry VTT V14** (built on the V14 placeable palette system). System-agnostic.
 
@@ -29,9 +29,16 @@ Requires **Foundry VTT V14** (built on the V14 placeable palette system). System
 | Fog Bank | Atmosphere | Grey swirling fog, reads as atmosphere | dim only |
 | Fey Lights | Atmosphere | Soft pink fairy shimmer | dim only |
 | Ghostly | Atmosphere | Sickly green ghost-light flicker | dim only |
+| Starlight | Atmosphere | Faint cold twinkle, open skies at night | dim only |
+| Bioluminescence | Atmosphere | Slow cyan-green glow that swells and fades | dim only |
+| Underwater | Atmosphere | Sea-blue ripple | 25% of dim |
 | Magical Glow | Magic | Soft violet pulse | 25% of dim |
 | Divine Radiance | Magic | Warm golden sunburst pulse | 25% of dim |
+| Arcane Ward | Magic | Cool blue, hexagonal shield pattern | 25% of dim |
+| Portal | Magic | Violet inward spiral | 25% of dim |
+| Storm | Magic | Harsh white-blue crackle | half of dim |
 | Magical Darkness | Magic | A *darkness source* — carves gloom out of light | half of dim |
+| Smoke Cloud | Magic | A *darkness source* — thick billowing smoke | half of dim |
 
 Hover a group for a tooltip listing its presets, or any preset for a tooltip card describing the light and its exact settings (color, animation, intensity, attenuation), using Foundry's own localized animation names.
 

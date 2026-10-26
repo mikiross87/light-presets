@@ -13,7 +13,7 @@
       },
       "magic": {
         "Name": "Magic",
-        "Description": "Arcane and divine light, plus the magical darkness source."
+        "Description": "Arcane and divine light, plus two darkness sources."
       }
     },
     "Preset": {
@@ -61,6 +61,18 @@
         "Name": "Ghostly",
         "Description": "Sickly green ghost-light flicker. Haunted halls, spectral apparitions, and cursed shrines."
       },
+      "presetStarlight": {
+        "Name": "Starlight",
+        "Description": "A faint, cold twinkle with no bright core, for open skies at night. Where Moonlight holds steady, this one glitters."
+      },
+      "presetBioluminescence": {
+        "Name": "Bioluminescence",
+        "Description": "A slow cyan-green glow that swells and fades, with no bright core. Fungus groves and glowing moss in deep caves."
+      },
+      "presetUnderwater": {
+        "Name": "Underwater",
+        "Description": "Sea-blue light that ripples like a moving surface overhead. Flooded rooms, sea caves, and sunken ruins."
+      },
       "presetLava": {
         "Name": "Lava Glow",
         "Description": "Deep red-orange glow with a slow, heavy flame roil. Lava pools, forge hearts, and embers."
@@ -69,9 +81,25 @@
         "Name": "Divine Radiance",
         "Description": "Warm golden sunburst pulse. Altars, holy auras, and consecrated ground."
       },
+      "presetArcaneWard": {
+        "Name": "Arcane Ward",
+        "Description": "Cool blue light with a hexagonal shield pattern, for protective circles and warded doors."
+      },
+      "presetPortal": {
+        "Name": "Portal",
+        "Description": "Violet light spiralling inward. Gates, rifts, and tears into other planes."
+      },
+      "presetStorm": {
+        "Name": "Storm",
+        "Description": "A harsh white-blue crackle. Charged crystals and lightning traps."
+      },
       "presetDarkness": {
         "Name": "Magical Darkness (darkness source)",
         "Description": "A darkness source, not a light: it carves an area of magical gloom out of existing illumination. Use for darkness spells and cursed zones."
+      },
+      "presetSmoke": {
+        "Name": "Smoke Cloud (darkness source)",
+        "Description": "A darkness source: thick, billowing smoke that dims everything inside it. Smoke bombs, burning buildings, or a vent pouring out fumes."
       }
     },
     "Back": {
