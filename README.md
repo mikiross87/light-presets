@@ -42,6 +42,10 @@ Requires **Foundry VTT V14** (built on the V14 placeable palette system). System
 
 Hover a group for a tooltip listing its presets, or any preset for a tooltip card describing the light and its exact settings (color, animation, intensity, attenuation), using Foundry's own localized animation names.
 
+### Hiding presets
+
+If you only use a few presets, open **Configure Settings → Light Presets → Configure Presets** and untick the ones you don't need. Each group has a toggle for all its presets at once. A group with nothing left disappears from the toolbar, and if only one group is left its presets sit directly in the toolbar, one click away. The choice applies to the whole world, so every GM sees the same toolbar. Lights you've already placed are not affected. If you hide the preset you're currently using, new lights keep using it until you pick another.
+
 ## How it works
 
 - Clicking a preset stores its data in Foundry's core light palette setting (`core.ambientLightPalette`), the V14 mechanism that supplies defaults for newly drawn lights. This is the same pattern core uses for its wall type presets.

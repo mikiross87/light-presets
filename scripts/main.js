@@ -10,8 +10,13 @@
  * A row per preset would be too many rows in a toolbar column that already
  * holds the core lighting tools, so they are collapsed into three groups
  * (GROUPS below). The toolbar shows one button per group; clicking one drills
- * in to its presets plus a back button. A group button carries the pip when
- * the active preset is one of its members.
+ * in to its presets plus a back button (when only one group has visible
+ * presets, they are shown directly with no group button). A group button
+ * carries the pip when the active preset is one of its members.
+ *
+ * The GM can hide presets they never use (Configure Settings → Configure Presets).
+ * Hidden presets keep working if already active; they only lose their button, and a
+ * group with nothing left to show loses its button too.
  *
  * Dim radius always comes from the drag gesture; presets control color,
  * animation, attenuation, etc. A preset with angle < 360 drags out a cone.
@@ -336,9 +341,30 @@ let openGroup = null;
 const GROUP_TOOL_PREFIX = "lightPresetGroup_";
 const BACK_TOOL = "lightPresetBack";
 
-/** The presets belonging to a group, in declaration order. */
-function groupMembers(group) {
+const MODULE_ID = "light-presets";
+
+/** World setting holding the PRESETS keys the GM hid from the toolbar. */
+const HIDDEN_SETTING = "hiddenPresets";
+
+/** The keys of the presets currently hidden. Unknown keys are harmless: nothing matches them. */
+function hiddenPresets() {
+  return new Set(game.settings.get(MODULE_ID, HIDDEN_SETTING));
+}
+
+/** Every preset belonging to a group, hidden or not, in declaration order. */
+function groupPresets(group) {
   return [...REGISTERED.values()].filter(p => p.group === group);
+}
+
+/** The presets of a group that the toolbar shows, in declaration order. */
+function groupMembers(group) {
+  const hidden = hiddenPresets();
+  return groupPresets(group).filter(p => !hidden.has(p.name));
+}
+
+/** The groups with at least one visible preset, in toolbar order. */
+function visibleGroups() {
+  return Object.keys(GROUPS).filter(key => groupMembers(key).length);
 }
 
 /** A preset's localized display name. */
@@ -423,7 +449,7 @@ function backTool(order) {
       heading: t("Back.Title"),
       items: [{ paragraph: t("Back.Hint", {
         groups: game.i18n.getListFormatter().format(
-          Object.keys(GROUPS).filter(key => groupMembers(key).length).map(key => t(`Group.${key}.Name`)))
+          visibleGroups().map(key => t(`Group.${key}.Name`)))
       }) }]
     }
   };
@@ -433,6 +459,7 @@ function backTool(order) {
  * Rebuild this module's entries in a lighting control to match the open group,
  * slotting them between the draw tool (order 2) and the day toggle (order 3).
  * Clears our previous entries first, so it is safe to call repeatedly.
+ * One visible group is shown flat, without a group button or back button.
  */
 function buildPresetTools(lighting) {
   for ( const name of Object.keys(lighting.tools) ) {
@@ -442,25 +469,103 @@ function buildPresetTools(lighting) {
   }
   let order = 2;
   const add = tool => lighting.tools[tool.name] = tool;
-  if ( openGroup ) {
+  const groups = visibleGroups();
+  // A lone group needs no drill-in: its presets go straight into the column.
+  if ( groups.length === 1 ) {
+    for ( const preset of groupMembers(groups[0]) ) add(presetTool(preset, order += 0.05));
+  }
+  else if ( openGroup ) {
     add(backTool(order += 0.05));
     for ( const preset of groupMembers(openGroup) ) add(presetTool(preset, order += 0.05));
   }
-  else for ( const key of Object.keys(GROUPS) ) {
-    if ( groupMembers(key).length ) add(groupTool(key, order += 0.05));
-  }
+  else for ( const key of groups ) add(groupTool(key, order += 0.05));
 }
 
 /** Open a group, or collapse to the group buttons when passed null, and redraw the toolbar. */
 function showGroup(key) {
   openGroup = key;
-  const lighting = ui.controls.controls.lighting;
+  const lighting = ui.controls?.controls.lighting;
   if ( !lighting ) return;
   buildPresetTools(lighting);
   // Deliberately not { reset: true }, which would re-prepare every layer's controls.
   // Rebuilding this one control in place is enough, and core resizes the column
   // itself when the tool count changes (SceneControls#_prepareContext).
   ui.controls.render({ parts: ["tools"] });
+}
+
+/** Rebuild the toolbar after the GM changes which presets are hidden, on every client. */
+function onHiddenPresetsChange() {
+  showGroup(openGroup && groupMembers(openGroup).length ? openGroup : null);
+}
+
+/**
+ * Configure Presets: a checkbox per preset under a toggle per group. Built as plain
+ * HTML so the module stays a single file; Save writes the unchecked presets to the
+ * hiddenPresets world setting, whose onChange redraws every GM's toolbar.
+ */
+class PresetVisibilityConfig extends foundry.applications.api.ApplicationV2 {
+  static DEFAULT_OPTIONS = {
+    id: "light-presets-visibility",
+    tag: "form",
+    window: { title: "LIGHTPRESETS.Visibility.Name", icon: "fa-solid fa-eye-slash", contentClasses: ["standard-form"] },
+    position: { width: 420 },
+    form: { handler: PresetVisibilityConfig.#onSubmit, closeOnSubmit: true }
+  };
+
+  /** @override */
+  async _renderHTML() {
+    const hidden = hiddenPresets();
+    // Names come from translation files, so escape them like core's templates would.
+    const { escapeHTML } = foundry.utils;
+    const fieldsets = Object.keys(GROUPS).map(key => {
+      const presets = groupPresets(key);
+      if ( !presets.length ) return "";
+      const rows = presets.map(p => `
+        <label class="checkbox">
+          <input type="checkbox" name="${p.name}"${hidden.has(p.name) ? "" : " checked"}>
+          <i class="${p.icon}" inert></i> ${escapeHTML(presetLabel(p))}
+        </label>`).join("");
+      return `
+        <fieldset data-group="${key}">
+          <legend><label class="checkbox"><input type="checkbox" data-group-toggle> ${escapeHTML(t(`Group.${key}.Name`))}</label></legend>
+          ${rows}
+        </fieldset>`;
+    }).join("");
+    return `<div class="standard-form scrollable">${fieldsets}</div>
+      <footer class="form-footer">
+        <button type="submit"><i class="fa-solid fa-floppy-disk" inert></i> ${game.i18n.localize("SETTINGS.Save")}</button>
+      </footer>`;
+  }
+
+  /** @override */
+  _replaceHTML(result, content) {
+    content.innerHTML = result;
+  }
+
+  /** Keep each group toggle in step with its presets: checked, unchecked, or indeterminate. */
+  _onRender(context, options) {
+    for ( const fieldset of this.element.querySelectorAll("fieldset[data-group]") ) {
+      const toggle = fieldset.querySelector("[data-group-toggle]");
+      const boxes = [...fieldset.querySelectorAll("input[name]")];
+      const sync = () => {
+        const shown = boxes.filter(b => b.checked).length;
+        toggle.checked = shown === boxes.length;
+        toggle.indeterminate = (shown > 0) && (shown < boxes.length);
+      };
+      toggle.addEventListener("change", () => {
+        for ( const box of boxes ) box.checked = toggle.checked;
+        sync();
+      });
+      for ( const box of boxes ) box.addEventListener("change", sync);
+      sync();
+    }
+  }
+
+  /** Save the unchecked presets as hidden. */
+  static async #onSubmit(event, form) {
+    const hidden = [...form.querySelectorAll("input[name]")].filter(i => !i.checked).map(i => i.name);
+    await game.settings.set(MODULE_ID, HIDDEN_SETTING, hidden);
+  }
 }
 
 Hooks.on("getSceneControlButtons", controls => {
@@ -491,6 +596,21 @@ Hooks.on("preCreateAmbientLight", document => {
  * palette no longer matches any preset the core behavior is untouched.
  */
 Hooks.once("init", () => {
+  game.settings.register(MODULE_ID, HIDDEN_SETTING, {
+    scope: "world",
+    config: false,
+    type: Array,
+    default: [],
+    onChange: onHiddenPresetsChange
+  });
+  game.settings.registerMenu(MODULE_ID, "presetVisibility", {
+    name: "LIGHTPRESETS.Visibility.Name",
+    label: "LIGHTPRESETS.Visibility.Name",
+    hint: "LIGHTPRESETS.Visibility.Hint",
+    icon: "fa-solid fa-eye-slash",
+    type: PresetVisibilityConfig,
+    restricted: true
+  });
   for ( const [name, { icon, group, config, brightRatio = 0.5 }] of Object.entries(PRESETS) ) {
     if ( !(group in GROUPS) ) {
       console.warn(`Light Presets | preset "${name}" names unknown group "${group}" and will not be shown.`);
