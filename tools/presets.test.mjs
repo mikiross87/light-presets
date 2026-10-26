@@ -274,3 +274,22 @@ test("a hidden active preset keeps its bright ratio while dragging", async () =>
     Palette.isActivePreset = () => false;
   }
 });
+
+test("Configure Presets is a GM-only settings menu", async () => {
+  const { menus } = await loadPresetTools();
+  assert.equal(menus.presetVisibility?.restricted, true);
+  assert.equal(typeof menus.presetVisibility.type, "function");
+});
+
+test("saving Configure Presets hides exactly the unchecked presets", async () => {
+  const { menus } = await loadPresetTools();
+  const { handler } = menus.presetVisibility.type.DEFAULT_OPTIONS.form;
+  const inputs = [
+    { name: "presetCandle", checked: true },
+    { name: "presetTorch", checked: false },
+    { name: "presetFog", checked: false }
+  ];
+  const form = { querySelectorAll: selector => (selector === "input[name]" ? inputs : []) };
+  await handler.call({}, new Event("submit"), form, {});
+  assert.deepEqual(game.settings.get("light-presets", "hiddenPresets"), ["presetTorch", "presetFog"]);
+});
