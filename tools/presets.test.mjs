@@ -62,7 +62,11 @@ const hooks = {};
 async function loadPresetTools() {
   globalThis.Hooks = { on: (name, fn) => hooks[name] = fn, once: (name, fn) => hooks[name] = fn };
   globalThis.foundry = {
-    utils: { mergeObject, deepClone: structuredClone, diffObject, isEmpty: obj => !Object.keys(obj).length },
+    utils: {
+      mergeObject, deepClone: structuredClone, diffObject, isEmpty: obj => !Object.keys(obj).length,
+      // Core's escapeHTML handles exactly these five characters.
+      escapeHTML: value => String(value).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#x27;" })[c])
+    },
     canvas: { layers: { LightingLayer: class { _updateDragPreview() {} } } },
     applications: {
       api: { ApplicationV2: class {} },
@@ -302,4 +306,30 @@ test("the Configure Presets dialog renders one checkbox per preset, unticking on
   const unchecked = [...html.matchAll(/<input type="checkbox" name="([^"]+)"([^>]*)>/g)]
     .filter(m => !m[2].includes(" checked")).map(m => m[1]);
   assert.deepEqual(unchecked, ["presetTorch"]);
+});
+
+test("a hidden-presets change before the toolbar exists does not throw", async () => {
+  // Another GM can save while this client is still loading, before ui.controls is built.
+  await loadPresetTools();
+  const controls = globalThis.ui.controls;
+  globalThis.ui.controls = undefined;
+  try {
+    await game.settings.set("light-presets", "hiddenPresets", ["presetTorch"]);
+  } finally {
+    globalThis.ui.controls = controls;
+  }
+});
+
+test("the Configure Presets dialog escapes translated names", async () => {
+  const { menus } = await loadPresetTools();
+  const { localize } = game.i18n;
+  game.i18n.localize = key => {
+    if ( key === "LIGHTPRESETS.Preset.presetTorch.Name" ) return "Torch <b>";
+    if ( key === "LIGHTPRESETS.Group.flame.Name" ) return "Flame & Co";
+    return localize(key);
+  };
+  const html = await new (menus.presetVisibility.type)()._renderHTML();
+  assert.ok(html.includes("Torch &lt;b&gt;"), "preset name is escaped");
+  assert.ok(html.includes("Flame &amp; Co"), "group name is escaped");
+  assert.ok(!html.includes("<b>"));
 });
