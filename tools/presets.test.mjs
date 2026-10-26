@@ -64,13 +64,37 @@ async function loadPresetTools() {
   globalThis.foundry = {
     utils: { mergeObject, deepClone: structuredClone, diffObject, isEmpty: obj => !Object.keys(obj).length },
     canvas: { layers: { LightingLayer: class { _updateDragPreview() {} } } },
-    applications: { sheets: { palette: { AmbientLightPalette: { isActivePreset: () => false } } } }
+    applications: {
+      api: { ApplicationV2: class {} },
+      sheets: { palette: { AmbientLightPalette: { isActivePreset: () => false } } }
+    }
   };
   const labelled = keys => Object.fromEntries(keys.map(key => [key, { label: key }]));
   globalThis.CONFIG = {
     Canvas: { lightAnimations: labelled(LIGHT_ANIMATIONS), darknessAnimations: labelled(DARKNESS_ANIMATIONS) }
   };
-  globalThis.game = { i18n: i18nStub() };
+  // Foundry's ClientSettings, enough for main.js: register/registerMenu/get/set, with set
+  // firing onChange like a world setting does on every client.
+  const registered = {};
+  const values = new Map();
+  const menus = {};
+  globalThis.game = {
+    i18n: i18nStub(),
+    settings: {
+      register: (namespace, key, data) => registered[key] = data,
+      registerMenu: (namespace, key, data) => {
+        // Core's config-category.hbs localizes these when it draws the menu button.
+        for ( const field of ["name", "label", "hint"] ) if ( data[field] ) game.i18n.localize(data[field]);
+        menus[key] = data;
+      },
+      get: (namespace, key) => values.has(key) ? values.get(key) : registered[key].default,
+      set: async (namespace, key, value) => {
+        values.set(key, value);
+        registered[key].onChange?.(value);
+        return value;
+      }
+    }
+  };
   const lighting = { tools: {} };
   globalThis.ui = { controls: { controls: { lighting }, render() {} } };
   await import("../scripts/main.js");
@@ -86,7 +110,7 @@ async function loadPresetTools() {
   // Collapse back to the group buttons: main.js keeps the open group in module state, and
   // the next call should start from the top level as a fresh toolbar does.
   lighting.tools.lightPresetBack.onChange();
-  return { presets, hooks };
+  return { presets, hooks, lighting, menus };
 }
 
 test("every preset's animation is one V14 defines for its kind of source", async () => {
@@ -176,4 +200,77 @@ test("the presets added for #51 exist with their animations", async () => {
     assert.equal(preset.createData.config.animation.type, type, name);
   }
   assert.equal(presets.find(p => p.name === "presetSmoke").createData.config.negative, true);
+});
+
+const FLAME = ["presetCandle", "presetTorch", "presetLantern", "presetBullseye", "presetCampfire", "presetChimney", "presetLava"];
+const ATMOSPHERE = ["presetMoonlight", "presetFog", "presetFey", "presetGhostly", "presetStarlight", "presetBioluminescence", "presetUnderwater"];
+const MAGIC = ["presetMagical", "presetDivine", "presetArcaneWard", "presetPortal", "presetStorm", "presetDarkness", "presetSmoke"];
+
+/** Load the module, then hide presets the way the Configure Presets dialog does. */
+async function withHidden(hidden) {
+  const env = await loadPresetTools();
+  await game.settings.set("light-presets", "hiddenPresets", hidden);
+  return env;
+}
+
+test("a hidden preset has no button and drops out of its group's list", async () => {
+  const { lighting } = await withHidden(["presetTorch"]);
+  assert.ok(!lighting.tools.lightPresetGroup_flame.toolclip.items[1].content.includes("Torch"));
+  lighting.tools.lightPresetGroup_flame.onChange();
+  assert.ok(!("presetTorch" in lighting.tools));
+  assert.ok("presetCandle" in lighting.tools);
+  lighting.tools.lightPresetBack.onChange();
+});
+
+test("a group with every preset hidden has no button", async () => {
+  const { lighting } = await withHidden(ATMOSPHERE);
+  assert.deepEqual(Object.keys(lighting.tools), ["lightPresetGroup_flame", "lightPresetGroup_magic"]);
+});
+
+test("with one visible group, its presets sit directly in the column", async () => {
+  const { lighting } = await withHidden([...ATMOSPHERE, ...MAGIC]);
+  assert.deepEqual(Object.keys(lighting.tools), FLAME);
+});
+
+test("with every preset hidden, the module adds no tools", async () => {
+  const { lighting } = await withHidden([...FLAME, ...ATMOSPHERE, ...MAGIC]);
+  assert.deepEqual(Object.keys(lighting.tools), []);
+});
+
+test("an open group whose presets all become hidden collapses to the group buttons", async () => {
+  const { lighting } = await loadPresetTools();
+  lighting.tools.lightPresetGroup_magic.onChange();
+  await game.settings.set("light-presets", "hiddenPresets", MAGIC);
+  assert.deepEqual(Object.keys(lighting.tools), ["lightPresetGroup_flame", "lightPresetGroup_atmosphere"]);
+});
+
+test("a hidden key that matches no preset changes nothing", async () => {
+  const expected = JSON.parse(readFileSync(new URL("./toolbar-en.snapshot.json", import.meta.url), "utf8"));
+  const { lighting } = await withHidden(["presetGone"]);
+  const text = Object.values(lighting.tools).map(({ name, title, toolclip }) => ({ name, title, toolclip }));
+  assert.deepEqual(text, expected.top);
+});
+
+test("a hidden active preset keeps its bright ratio while dragging", async () => {
+  // Take Chimney's createData from its tool before hiding it: the palette match is by identity.
+  const { lighting } = await loadPresetTools();
+  lighting.tools.lightPresetGroup_flame.onChange();
+  const { createData } = lighting.tools.presetChimney;
+  lighting.tools.lightPresetBack.onChange();
+  await game.settings.set("light-presets", "hiddenPresets", ["presetChimney"]);
+
+  const Palette = foundry.applications.sheets.palette.AmbientLightPalette;
+  Palette.isActivePreset = data => data === createData;
+  try {
+    let bright;
+    const preview = {
+      document: { config: { dim: 40 }, updateSource: ({ config }) => bright = config.bright },
+      renderFlags: { set() {} },
+      initializeLightSource() {}
+    };
+    foundry.canvas.layers.LightingLayer.prototype._updateDragPreview({ interactionData: { preview } });
+    assert.equal(bright, 10);
+  } finally {
+    Palette.isActivePreset = () => false;
+  }
 });
