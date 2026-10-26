@@ -44,7 +44,7 @@ Hover a group for a tooltip listing its presets, or any preset for a tooltip car
 
 ### Hiding presets
 
-If you only use a few presets, open **Configure Settings → Light Presets → Configure Presets** and untick the ones you don't need. Each group has a toggle for all its presets at once. A group with nothing left disappears from the toolbar, and if only one group is left its presets sit directly in the toolbar, one click away. The choice applies to the whole world, so every GM sees the same toolbar. Lights you've already placed are not affected.
+If you only use a few presets, open **Configure Settings → Light Presets → Configure Presets** and untick the ones you don't need. Each group has a toggle for all its presets at once. A group with nothing left disappears from the toolbar, and if only one group is left its presets sit directly in the toolbar, one click away. The choice applies to the whole world, so every GM sees the same toolbar. Lights you've already placed are not affected. If you hide the preset you're currently using, new lights keep using it until you pick another.
 
 ## How it works
 

@@ -293,3 +293,13 @@ test("saving Configure Presets hides exactly the unchecked presets", async () =>
   await handler.call({}, new Event("submit"), form, {});
   assert.deepEqual(game.settings.get("light-presets", "hiddenPresets"), ["presetTorch", "presetFog"]);
 });
+
+test("the Configure Presets dialog renders one checkbox per preset, unticking only hidden ones", async () => {
+  const { menus } = await withHidden(["presetTorch"]);
+  const html = await new (menus.presetVisibility.type)()._renderHTML();
+  const names = [...html.matchAll(/name="([^"]+)"/g)].map(m => m[1]);
+  assert.deepEqual(names, [...FLAME, ...ATMOSPHERE, ...MAGIC]);
+  const unchecked = [...html.matchAll(/<input type="checkbox" name="([^"]+)"([^>]*)>/g)]
+    .filter(m => !m[2].includes(" checked")).map(m => m[1]);
+  assert.deepEqual(unchecked, ["presetTorch"]);
+});

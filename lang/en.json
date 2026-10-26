@@ -109,7 +109,7 @@
     "Visibility": {
       "Name": "Configure Presets",
       "Label": "Configure Presets",
-      "Hint": "Choose which presets appear on the lighting toolbar. Hidden presets keep working on lights already placed, and a group with no presets left disappears."
+      "Hint": "Choose which presets appear on the lighting toolbar. Lights you've already placed are not affected, and a group with no presets left disappears."
     },
     "Toolclip": {
       "Type": "Type",

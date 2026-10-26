@@ -10,8 +10,9 @@
  * A row per preset would be too many rows in a toolbar column that already
  * holds the core lighting tools, so they are collapsed into three groups
  * (GROUPS below). The toolbar shows one button per group; clicking one drills
- * in to its presets plus a back button. A group button carries the pip when
- * the active preset is one of its members.
+ * in to its presets plus a back button (when only one group has visible
+ * presets, they are shown directly with no group button). A group button
+ * carries the pip when the active preset is one of its members.
  *
  * The GM can hide presets they never use (Configure Settings → Configure Presets).
  * Hidden presets keep working if already active; they only lose their button, and a

@@ -19,7 +19,8 @@ a GM would never notice (CI, tooling, docs) needs no entry.
   second darkness source that fills an area with grey smoke. (#51)
 - Configure Presets, under Configure Settings, lets you hide presets you never
   use. A group with nothing left disappears, and if only one group is left its
-  presets sit directly in the toolbar. (#61)
+  presets sit directly in the toolbar. The choice applies to every GM in the
+  world. (#61)
 
 ## [1.3.0] - 2026-10-20
 
