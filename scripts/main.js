@@ -484,7 +484,7 @@ function buildPresetTools(lighting) {
 /** Open a group, or collapse to the group buttons when passed null, and redraw the toolbar. */
 function showGroup(key) {
   openGroup = key;
-  const lighting = ui.controls.controls.lighting;
+  const lighting = ui.controls?.controls.lighting;
   if ( !lighting ) return;
   buildPresetTools(lighting);
   // Deliberately not { reset: true }, which would re-prepare every layer's controls.
@@ -515,17 +515,19 @@ class PresetVisibilityConfig extends foundry.applications.api.ApplicationV2 {
   /** @override */
   async _renderHTML() {
     const hidden = hiddenPresets();
+    // Names come from translation files, so escape them like core's templates would.
+    const { escapeHTML } = foundry.utils;
     const fieldsets = Object.keys(GROUPS).map(key => {
       const presets = groupPresets(key);
       if ( !presets.length ) return "";
       const rows = presets.map(p => `
         <label class="checkbox">
           <input type="checkbox" name="${p.name}"${hidden.has(p.name) ? "" : " checked"}>
-          <i class="${p.icon}" inert></i> ${presetLabel(p)}
+          <i class="${p.icon}" inert></i> ${escapeHTML(presetLabel(p))}
         </label>`).join("");
       return `
         <fieldset data-group="${key}">
-          <legend><label class="checkbox"><input type="checkbox" data-group-toggle> ${t(`Group.${key}.Name`)}</label></legend>
+          <legend><label class="checkbox"><input type="checkbox" data-group-toggle> ${escapeHTML(t(`Group.${key}.Name`))}</label></legend>
           ${rows}
         </fieldset>`;
     }).join("");
@@ -603,7 +605,7 @@ Hooks.once("init", () => {
   });
   game.settings.registerMenu(MODULE_ID, "presetVisibility", {
     name: "LIGHTPRESETS.Visibility.Name",
-    label: "LIGHTPRESETS.Visibility.Label",
+    label: "LIGHTPRESETS.Visibility.Name",
     hint: "LIGHTPRESETS.Visibility.Hint",
     icon: "fa-solid fa-eye-slash",
     type: PresetVisibilityConfig,
