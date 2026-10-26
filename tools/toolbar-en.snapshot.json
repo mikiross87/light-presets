@@ -493,7 +493,7 @@
         "heading": "Preset: Starlight",
         "items": [
           {
-            "paragraph": "A faint, cold twinkle with no bright core, for open skies at night. Where Moonlight holds steady, this one glitters."
+            "paragraph": "A single cold star-glint with faint rays and no bright core. Where Moonlight holds steady, this one twinkles."
           },
           {
             "heading": "Color",
@@ -563,7 +563,7 @@
         "heading": "Preset: Underwater",
         "items": [
           {
-            "paragraph": "Sea-blue light that ripples like a moving surface overhead. Flooded rooms, sea caves, and sunken ruins."
+            "paragraph": "Sea-blue light in slow rings that ripple outward. Flooded rooms, sea caves, and sunken ruins."
           },
           {
             "heading": "Color",
@@ -571,7 +571,7 @@
           },
           {
             "heading": "Animation",
-            "content": "wave — speed 2, intensity 4"
+            "content": "wave — speed 1, intensity 2"
           },
           {
             "heading": "Intensity",
@@ -752,11 +752,11 @@
         "heading": "Preset: Storm",
         "items": [
           {
-            "paragraph": "A harsh white-blue crackle. Charged crystals and lightning traps."
+            "paragraph": "Blue-white veins of crackling energy. Charged crystals and lightning traps."
           },
           {
             "heading": "Color",
-            "content": "#a8d8ff"
+            "content": "#7fc4ff"
           },
           {
             "heading": "Animation",
@@ -822,11 +822,15 @@
         "heading": "Preset: Smoke Cloud (darkness source)",
         "items": [
           {
-            "paragraph": "A darkness source: thick, billowing smoke that dims everything inside it. Smoke bombs, burning buildings, or a vent pouring out fumes."
+            "paragraph": "A darkness source: a grey haze of thick smoke that dims everything inside it. Smoke bombs, burning buildings, or a vent pouring out fumes."
           },
           {
             "heading": "Type",
             "content": "Darkness source (removes light)"
+          },
+          {
+            "heading": "Color",
+            "content": "#5a5a5a"
           },
           {
             "heading": "Animation",

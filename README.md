@@ -29,16 +29,16 @@ Requires **Foundry VTT V14** (built on the V14 placeable palette system). System
 | Fog Bank | Atmosphere | Grey swirling fog, reads as atmosphere | dim only |
 | Fey Lights | Atmosphere | Soft pink fairy shimmer | dim only |
 | Ghostly | Atmosphere | Sickly green ghost-light flicker | dim only |
-| Starlight | Atmosphere | Faint cold twinkle, open skies at night | dim only |
+| Starlight | Atmosphere | Single cold star-glint that twinkles | dim only |
 | Bioluminescence | Atmosphere | Slow cyan-green glow that swells and fades | dim only |
-| Underwater | Atmosphere | Sea-blue ripple | 25% of dim |
+| Underwater | Atmosphere | Sea-blue rings rippling outward | 25% of dim |
 | Magical Glow | Magic | Soft violet pulse | 25% of dim |
 | Divine Radiance | Magic | Warm golden sunburst pulse | 25% of dim |
 | Arcane Ward | Magic | Cool blue, hexagonal shield pattern | 25% of dim |
 | Portal | Magic | Violet inward spiral | 25% of dim |
-| Storm | Magic | Harsh white-blue crackle | half of dim |
+| Storm | Magic | Blue-white veins of crackling energy | half of dim |
 | Magical Darkness | Magic | A *darkness source* — carves gloom out of light | half of dim |
-| Smoke Cloud | Magic | A *darkness source* — thick billowing smoke | half of dim |
+| Smoke Cloud | Magic | A *darkness source* — grey haze of thick smoke | half of dim |
 
 Hover a group for a tooltip listing its presets, or any preset for a tooltip card describing the light and its exact settings (color, animation, intensity, attenuation), using Foundry's own localized animation names.
 

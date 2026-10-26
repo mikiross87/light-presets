@@ -206,7 +206,7 @@ const PRESETS = {
       color: "#3a8fb7",
       alpha: 0.5,
       attenuation: 0.5,
-      animation: { type: "wave", speed: 2, intensity: 4 }
+      animation: { type: "wave", speed: 1, intensity: 2 }
     }
   },
   presetLava: {
@@ -254,7 +254,7 @@ const PRESETS = {
     group: "magic",
     icon: "fa-solid fa-bolt-lightning",
     config: {
-      color: "#a8d8ff",
+      color: "#7fc4ff",
       attenuation: 0.35,
       animation: { type: "energy", speed: 5, intensity: 6 }
     }
@@ -272,6 +272,7 @@ const PRESETS = {
     icon: "fa-solid fa-smoke",
     config: {
       negative: true,
+      color: "#5a5a5a",
       animation: { type: "denseSmoke", speed: 2, intensity: 5 }
     }
   }

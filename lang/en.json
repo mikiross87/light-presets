@@ -63,7 +63,7 @@
       },
       "presetStarlight": {
         "Name": "Starlight",
-        "Description": "A faint, cold twinkle with no bright core, for open skies at night. Where Moonlight holds steady, this one glitters."
+        "Description": "A single cold star-glint with faint rays and no bright core. Where Moonlight holds steady, this one twinkles."
       },
       "presetBioluminescence": {
         "Name": "Bioluminescence",
@@ -71,7 +71,7 @@
       },
       "presetUnderwater": {
         "Name": "Underwater",
-        "Description": "Sea-blue light that ripples like a moving surface overhead. Flooded rooms, sea caves, and sunken ruins."
+        "Description": "Sea-blue light in slow rings that ripple outward. Flooded rooms, sea caves, and sunken ruins."
       },
       "presetLava": {
         "Name": "Lava Glow",
@@ -91,7 +91,7 @@
       },
       "presetStorm": {
         "Name": "Storm",
-        "Description": "A harsh white-blue crackle. Charged crystals and lightning traps."
+        "Description": "Blue-white veins of crackling energy. Charged crystals and lightning traps."
       },
       "presetDarkness": {
         "Name": "Magical Darkness (darkness source)",
@@ -99,7 +99,7 @@
       },
       "presetSmoke": {
         "Name": "Smoke Cloud (darkness source)",
-        "Description": "A darkness source: thick, billowing smoke that dims everything inside it. Smoke bombs, burning buildings, or a vent pouring out fumes."
+        "Description": "A darkness source: a grey haze of thick smoke that dims everything inside it. Smoke bombs, burning buildings, or a vent pouring out fumes."
       }
     },
     "Back": {
