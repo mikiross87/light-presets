@@ -497,6 +497,74 @@ function onHiddenPresetsChange() {
   showGroup(openGroup && groupMembers(openGroup).length ? openGroup : null);
 }
 
+/**
+ * Configure Presets: a checkbox per preset under a toggle per group. Built as plain
+ * HTML so the module stays a single file; Save writes the unchecked presets to the
+ * hiddenPresets world setting, whose onChange redraws every GM's toolbar.
+ */
+class PresetVisibilityConfig extends foundry.applications.api.ApplicationV2 {
+  static DEFAULT_OPTIONS = {
+    id: "light-presets-visibility",
+    tag: "form",
+    window: { title: "LIGHTPRESETS.Visibility.Name", icon: "fa-solid fa-eye-slash" },
+    position: { width: 420 },
+    form: { handler: PresetVisibilityConfig.#onSubmit, closeOnSubmit: true }
+  };
+
+  /** @override */
+  async _renderHTML() {
+    const hidden = hiddenPresets();
+    const fieldsets = Object.keys(GROUPS).map(key => {
+      const presets = groupPresets(key);
+      if ( !presets.length ) return "";
+      const rows = presets.map(p => `
+        <label class="checkbox">
+          <input type="checkbox" name="${p.name}"${hidden.has(p.name) ? "" : " checked"}>
+          <i class="${p.icon}" inert></i> ${presetLabel(p)}
+        </label>`).join("");
+      return `
+        <fieldset data-group="${key}">
+          <legend><label class="checkbox"><input type="checkbox" data-group-toggle> ${t(`Group.${key}.Name`)}</label></legend>
+          ${rows}
+        </fieldset>`;
+    }).join("");
+    return `${fieldsets}
+      <footer class="form-footer">
+        <button type="submit"><i class="fa-solid fa-floppy-disk" inert></i> ${game.i18n.localize("SETTINGS.Save")}</button>
+      </footer>`;
+  }
+
+  /** @override */
+  _replaceHTML(result, content) {
+    content.innerHTML = result;
+  }
+
+  /** Keep each group toggle in step with its presets: checked, unchecked, or indeterminate. */
+  _onRender(context, options) {
+    for ( const fieldset of this.element.querySelectorAll("fieldset[data-group]") ) {
+      const toggle = fieldset.querySelector("[data-group-toggle]");
+      const boxes = [...fieldset.querySelectorAll("input[name]")];
+      const sync = () => {
+        const shown = boxes.filter(b => b.checked).length;
+        toggle.checked = shown === boxes.length;
+        toggle.indeterminate = (shown > 0) && (shown < boxes.length);
+      };
+      toggle.addEventListener("change", () => {
+        for ( const box of boxes ) box.checked = toggle.checked;
+        sync();
+      });
+      for ( const box of boxes ) box.addEventListener("change", sync);
+      sync();
+    }
+  }
+
+  /** Save the unchecked presets as hidden. */
+  static async #onSubmit(event, form) {
+    const hidden = [...form.querySelectorAll("input[name]")].filter(i => !i.checked).map(i => i.name);
+    await game.settings.set(MODULE_ID, HIDDEN_SETTING, hidden);
+  }
+}
+
 Hooks.on("getSceneControlButtons", controls => {
   if ( controls.lighting ) buildPresetTools(controls.lighting);
 });
@@ -531,6 +599,14 @@ Hooks.once("init", () => {
     type: Array,
     default: [],
     onChange: onHiddenPresetsChange
+  });
+  game.settings.registerMenu(MODULE_ID, "presetVisibility", {
+    name: "LIGHTPRESETS.Visibility.Name",
+    label: "LIGHTPRESETS.Visibility.Label",
+    hint: "LIGHTPRESETS.Visibility.Hint",
+    icon: "fa-solid fa-eye-slash",
+    type: PresetVisibilityConfig,
+    restricted: true
   });
   for ( const [name, { icon, group, config, brightRatio = 0.5 }] of Object.entries(PRESETS) ) {
     if ( !(group in GROUPS) ) {
